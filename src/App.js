@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // CSS
 import './App.css';
@@ -10,11 +11,12 @@ import './App.css';
 // Components
 import Signup from './components/Signup';
 import About from './components/About';
-import Footer from './components/Footer';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Profile from './components/Profile';
-import Welcome from './components/Welcome';
+import Home from './components/Home';
+import Group from "./components/Group"
+import Spiel from "./components/Spiel"
 
 const PrivateRoute = ({ component: Component, ...rest}) => {
   let token = localStorage.getItem('jwtToken');
@@ -24,7 +26,9 @@ const PrivateRoute = ({ component: Component, ...rest}) => {
   }} />
 }
 
-function App() {
+  
+
+function App(props) {
   // Set state values
   const [currentUser, setCurrentUser] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -59,6 +63,7 @@ function App() {
   }
 
   return (
+    
     <Router>
     <div className="App">
       <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} />
@@ -70,11 +75,12 @@ function App() {
             render={(props) => <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser}/>}
           />
           <PrivateRoute path="/profile" component={Profile} user={currentUser} handleLogout={handleLogout} />
-          <Route exact path="/" component={Welcome} />
+          <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
+          <Route path="/group" component={Group} />
+          <Route path="/spiel" component={Spiel} />
         </Switch>
       </div>
-      <Footer />
     </div>
     </Router>
   );

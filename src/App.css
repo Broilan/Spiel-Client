@@ -3,6 +3,7 @@ html {
   min-height: 100%;
 }
 body {
+  background-color: rgb(231, 226, 226);
   margin-bottom: 60px; /* Margin bottom by footer height */
 }
 .footer {

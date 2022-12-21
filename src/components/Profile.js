@@ -33,6 +33,7 @@ const Profile = (props) => {
         <div className="text-center pt-4">
             {user ? userData : errorDiv()}
         </div>
+        
     );
 
 }

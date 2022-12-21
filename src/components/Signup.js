@@ -70,8 +70,7 @@ const Signup = () => {
                             <label htmlFor="confirmPassword">Confirm Password</label>
                             <input type="password" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPassword} className="form-control"/>
                         </div>
-                        <button type="submit" className="btn btn-primary float-right">Submit</button>
-                    </form>
+                        <input onClick={handleSubmit} type="submit" className="btn btn-primary float-right" value="Submit"/>                    </form>
                 </div>
             </div>
         </div>
