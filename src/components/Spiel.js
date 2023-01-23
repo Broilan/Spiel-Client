@@ -64,15 +64,15 @@ const Spiel = (props) => {
   }
 
   return (
-    <div style={{ position: "relative", top: "340px", left: "289px", width: "645px" }}>
-      <Card style={{ position: "relative", width: "647px", maxheight: "300px" }}>
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
+    <div style={{ position: "relative", top: "-110px", left: "289px" }}>
+      <Card style={{ position: "relative", width: "34vw", maxheight: "300px" }}>
+        <Dropdown style={{postion: "relative", left: "93%"}}>
+          <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item onClick={callDelete}>Delete Spiel</Dropdown.Item>
-            <Dropdown.Item onClick={handleShow}>Edit Spiel</Dropdown.Item>
+            <Dropdown.Item onClick={callDelete}>Delete</Dropdown.Item>
+            <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <Card.Title>{user}</Card.Title>

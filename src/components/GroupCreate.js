@@ -4,16 +4,18 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import React, { useState, useEffect } from 'react';
 import GroupCard from './GroupCard';
-import GroupsChart from './GroupsChart';
+import Modal from 'react-bootstrap/Modal';
 const { REACT_APP_SERVER_URL } = process.env;
 
 
-
 function GroupCreate() {
-
+   const [show, setShow] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [description, setDescription] = useState('');
     const [groupFeed, setGroupFeed]= useState([])
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
 const handleGroup = (e) => {
     setGroupName(e.target.value);
@@ -39,7 +41,6 @@ axios.post(`${REACT_APP_SERVER_URL}/group`, newGroup)
     .catch(error => console.log('===> Error', error));
 }
 
-
 useEffect(() => {
 setAuthToken(localStorage.getItem('jwtToken'));
 axios.get(`${REACT_APP_SERVER_URL}/group`)
@@ -64,8 +65,19 @@ const groupDelete = (id) => {
       .catch(error => console.log('===> Error', error));
   }
 
+
+
   return (
-    <Form>
+    <>
+    <Button variant="primary" onClick={handleShow}>
+    Create a group
+  </Button>
+
+<Modal show={show} onHide={handleClose}>
+<Modal.Header closeButton>
+  <Modal.Title>New Group</Modal.Title>
+</Modal.Header>
+<Modal.Body>    <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Group Name</Form.Label>
         <Form.Control onChange={handleGroup} type="email" placeholder="New Group" />
@@ -74,11 +86,23 @@ const groupDelete = (id) => {
         <Form.Label>Group Description</Form.Label>
         <Form.Control onChange={handleDescription} as="textarea" rows={3} />
       </Form.Group>
-      <Button type="submit" onClick={postGroup} variant="secondary">Submit</Button>
-      {groupFeed.map((gf, idx) => <GroupCard groupDelete={groupDelete} id={gf._id} key={idx} group={gf.groupName} description={gf.description} />)}
-      {groupFeed.map((gf, idx) => <GroupsChart groupDelete={groupDelete} id={gf._id} key={idx} groupName={gf.groupName} description={gf.description} />)}
-    </Form>
+      
+    </Form></Modal.Body>
+<Modal.Footer>
+  <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="secondary" onClick={postGroup}>
+    Submit
+  </Button>
+</Modal.Footer>
+</Modal>
+<div style={{position:"absolute", left: "10vw", display:"flex", flexDirection:"row",  flexWrap: "wrap", rowGap: "15px", columnGap: "15px"}}>
+{groupFeed.map((gf, idx) => <GroupCard  groupDelete={groupDelete} id={gf._id} key={idx} group={gf.groupName} description={gf.description} />)} 
+ </div>  
+   </>
   );
   }
 
 export default GroupCreate;
+

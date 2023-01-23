@@ -18,3 +18,14 @@ nav {
     text-decoration:none;
     text-shadow: 1px 1px 1px #555;
 }
+
+.listItem {
+    cursor:pointer; 
+}
+
+.listItem:hover {
+    background-color: black;
+    opacity: 0.75;
+    color: white;
+}
+

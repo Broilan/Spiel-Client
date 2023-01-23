@@ -1,6 +1,6 @@
 // Imports
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Link, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,13 +10,16 @@ import './App.css';
 
 // Components
 import Signup from './components/Signup';
-import About from './components/About';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Profile from './components/Profile';
 import Home from './components/Home';
 import Group from "./components/Group"
 import Spiel from "./components/Spiel"
+import GroupPage from './components/GroupPage';
+import ChatsPage from './components/ChatsPage'
+import NotificationsPage from './components/NotificationsPage'
+
 
 const PrivateRoute = ({ component: Component, ...rest}) => {
   let token = localStorage.getItem('jwtToken');
@@ -75,10 +78,12 @@ function App(props) {
             render={(props) => <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser}/>}
           />
           <PrivateRoute path="/profile" component={Profile} user={currentUser} handleLogout={handleLogout} />
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/group" component={Group} />
+          <Route exact path="/" component={Home} user={currentUser} />
+          <Route exact path="/group" component={Group} />
+          <Route exact path="/group/:idx" component={GroupPage} />
           <Route path="/spiel" component={Spiel} />
+          <Route path="/Chats" component={ChatsPage} />
+          <Route path="/Notifications" component={NotificationsPage} />
         </Switch>
       </div>
     </div>

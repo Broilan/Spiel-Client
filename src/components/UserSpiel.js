@@ -74,7 +74,7 @@ const UserSpiel = () => {
 
     return (
         <div>
-            <div className="row mt-4" style={{ position: 'absolute', height: "50px", width: "1150px", top: "30px" }}>
+            <div className="row mt-4" style={{ position: 'absolute', height: "50px", width: "60.2vw", top: "30px" }}>
                 <div className="col-md-7 offset-md-3">
                     <div className="card card-body">
                         <h2 className="py-2">Spiel</h2>
