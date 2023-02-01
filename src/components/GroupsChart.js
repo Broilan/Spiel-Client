@@ -7,28 +7,30 @@ const { REACT_APP_SERVER_URL } = process.env;
 
 function GroupsChart(props) {
   const [groupFeed, setGroupFeed]= useState([])
+  const id = props.id
 
   useEffect(() => {
   setAuthToken(localStorage.getItem('jwtToken'));
-  axios.get(`${REACT_APP_SERVER_URL}/group`)
+
+  axios.get(`${REACT_APP_SERVER_URL}/users/${id}/group`)
       .then((response) => {
-          console.log(response.data.group);
-          setGroupFeed(response.data.group);
+          console.log("response.data.groups", response);
+          setGroupFeed(response.data.FoundGroup);
   
       }).catch((err) => { console.log('****************ERROR', err) });
   }, []);
 
   return (
     <div>
-    <ListGroup as="ol" numbered style={{width: "300px", position: "absolute", top: "25%",  right: "10%"}}>
+    <ListGroup as="ol" numbered style={{width: "300px", position: "absolute", top: "25vh",  right: "10%"}}>
         <h1>My Groups</h1> 
-           {groupFeed.map((idx) =>       <ListGroup.Item
+           {groupFeed?.map((group) =>       <ListGroup.Item
         as="li"
         className="d-flex justify-content-between align-items-start"
       >
     
         <div className="ms-2 me-auto">
-          <div className="fw-bold"> {idx.groupName}</div>
+          <div className="fw-bold"> {group.groupName}</div>
         </div>
         <Badge bg="primary" pill>
           14

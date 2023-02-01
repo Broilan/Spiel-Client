@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Route, Link, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
+import axios from 'axios';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // CSS
@@ -18,8 +20,12 @@ import Group from "./components/Group"
 import Spiel from "./components/Spiel"
 import GroupPage from './components/GroupPage';
 import ChatsPage from './components/ChatsPage'
+import UserCard from './components/UserCard';
 import NotificationsPage from './components/NotificationsPage'
+import Settings from './components/Settings';
+import SpielPost from './components/SpielPost';
 
+const { REACT_APP_SERVER_URL } = process.env;
 
 const PrivateRoute = ({ component: Component, ...rest}) => {
   let token = localStorage.getItem('jwtToken');
@@ -50,6 +56,8 @@ function App(props) {
     }
   }, []);
 
+
+
   const nowCurrentUser = (userData) => {
     console.log('===> nowCurrent is here.');
     setCurrentUser(userData);
@@ -77,13 +85,16 @@ function App(props) {
             path="/login"
             render={(props) => <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser}/>}
           />
-          <PrivateRoute path="/profile" component={Profile} user={currentUser} handleLogout={handleLogout} />
-          <Route exact path="/" component={Home} user={currentUser} />
+          <PrivateRoute path="/profile" component={Profile} user={currentUser}  handleLogout={handleLogout} />
+          <PrivateRoute exact path="/" component={Home} user={currentUser} />
+          <PrivateRoute exact path="/usercard" component={UserCard} user={currentUser} />
           <Route exact path="/group" component={Group} />
-          <Route exact path="/group/:idx" component={GroupPage} />
-          <Route path="/spiel" component={Spiel} />
+          <PrivateRoute exact path="/group/:idx" user={currentUser} component={GroupPage} />
+          <PrivateRoute path="/spiel" component={Spiel} user={currentUser} />
           <Route path="/Chats" component={ChatsPage} />
           <Route path="/Notifications" component={NotificationsPage} />
+          <Route path="/Settings" component={Settings} />
+          <Route path="/SpielPost" component={SpielPost} />
         </Switch>
       </div>
     </div>

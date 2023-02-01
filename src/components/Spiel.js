@@ -1,39 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-const { REACT_APP_SERVER_URL } = process.env;
 
+import { useHistory } from "react-router-dom";
+
+const { REACT_APP_SERVER_URL } = process.env;
 // import Comment from "./Comment";
 
 
 const Spiel = (props) => {
 
   const [show, setShow] = useState(false);
-  const [newUser, setNewUser] = useState('');
-  console.log(newUser)
   const [newMessage, setNewMessage] = useState('');
   const [newGroup, setNewGroup] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [user, setUser] = useState(props.user);
+  const name = props.name
+  const username=props.username
   const [message, setMessage] = useState(props.message);
   const [group, setGroup] = useState(props.group);
-  const id = props.id
+  const spielID = props.spielID
   const handleDelete = props.handleDelete
+
+  const history=useHistory();
+
+
+
+  function userCheck(){
+    if (username==name){
+      return <Dropdown.Item onClick={callDelete}>Delete</Dropdown.Item>
+    }else {
+      console.log("wrong user")
+    }
+  }
+
+  function postredir() {
+  history.push(`/SpielPost`)
+  }
 
   const handleNewMessage = (e) => {
     setNewMessage(e.target.value);
-  }
-
-  const handleNewUser = (e) => {
-    setNewUser(e.target.value);
   }
 
   const handleNewGroup = (e) => {
@@ -42,19 +56,18 @@ const Spiel = (props) => {
 
   const callDelete = (e) => {
     e.preventDefault();
-    handleDelete(id)
+    handleDelete(spielID)
   }
 
-  const handleUpdate = (id) => {
-        setUser(newUser)
+  const handleUpdate = (spielID) => {
         setMessage(newMessage)
         setGroup(newGroup)
-    const data = { user, group, message
+    const data = { name, group, message
     }
 
     setAuthToken(localStorage.getItem('jwtToken'));
     
-    axios.put(`${REACT_APP_SERVER_URL}/spiel/${id}`, data )
+    axios.put(`${REACT_APP_SERVER_URL}/spiel/${spielID}`, data )
       .then(response => {
          console.log(response)
 
@@ -63,19 +76,24 @@ const Spiel = (props) => {
       .catch(error => console.log('===> Error', error));
   }
 
+
   return (
-    <div style={{ position: "relative", top: "-110px", left: "289px" }}>
-      <Card style={{ position: "relative", width: "34vw", maxheight: "300px" }}>
-        <Dropdown style={{postion: "relative", left: "93%"}}>
+    <div  style={{ position: "relative", top: "30vh", left: "289px" }}>
+      
+      <Card style={{ cursor:"pointer", position: "relative", width: "34vw", maxheight: "300px" }}>
+        <Dropdown style={{position: "relative", left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item onClick={callDelete}>Delete</Dropdown.Item>
+          <Dropdown.Item onClick={postredir}>See Post</Dropdown.Item>
+           {userCheck()}
             <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
+
           </Dropdown.Menu>
         </Dropdown>
-        <Card.Title>{user}</Card.Title>
+        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Card.Title>{name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{group}</Card.Subtitle>
         <Card.Text> {message} </Card.Text>
         <Button style={{backgroundColor: "transparent", position: "relative", width: "50px"}}variant="primary" onClick={handleClose}> 💬 </Button> <Button style={{backgroundColor: "transparent", position: "relative", width: "50px", left: "50px", bottom: "38px"}} variant="primary" onClick={handleClose}> 💓 </Button>
@@ -88,10 +106,7 @@ const Spiel = (props) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label >User</Form.Label>
-              <Form.Control onChange={handleNewUser} type="User" placeholder="Enter User" />
-            </Form.Group>
+            <h1>{name}</h1>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label >Group</Form.Label>
               <Form.Control onChange={handleNewGroup} type="Group" placeholder="Enter Group" />

@@ -4,9 +4,12 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 const { REACT_APP_SERVER_URL } = process.env;
 
+
 const Signup = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [image, setImage] = useState('pfp')
+    const [bio, setBio] = useState('add a bio!')
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
@@ -32,7 +35,7 @@ const Signup = () => {
         // make sure password and confirm password are equal
         // password length >= 8 characters
         if (password === confirmPassword && password.length >= 8) {
-            const newUser = { name, email, password };
+            const newUser = { name, image, email, bio, password };
             axios.post(`${REACT_APP_SERVER_URL}/users/signup`, newUser)
             .then(response => {
                 console.log('===> Yay, new user');
@@ -71,6 +74,7 @@ const Signup = () => {
                             <input type="password" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPassword} className="form-control"/>
                         </div>
                         <input onClick={handleSubmit} type="submit" className="btn btn-primary float-right" value="Submit"/>                    </form>
+
                 </div>
             </div>
         </div>

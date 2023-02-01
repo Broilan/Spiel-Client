@@ -5,14 +5,16 @@ import Spiel from "./Spiel"
 import UserCard from './UserCard';
 
 const Home = (props) => {
-    const user = props.user;
+
+   const { name, id, email, exp } = props.user;
+        
 
     return (
         <div>
-            <UserCard  userInfo={user}/>
-            < UserSpiel />
+            <UserCard name={name} email={email} id={id}/>
+            < UserSpiel  name={name} id={id}/>
             < Spiel />
-            < GroupsChart/>
+            < GroupsChart id={id}/>
         </div>
     )
 }

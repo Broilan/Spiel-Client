@@ -6,6 +6,7 @@ import { useParams, Link } from 'react-router-dom';
 function GroupCard(props) {
     const description = props.description
     const group = props.group
+    
     const id = props.id
     const { idx } = useParams();
     const groupDelete=props.groupDelete

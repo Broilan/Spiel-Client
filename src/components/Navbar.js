@@ -8,7 +8,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import WorkIcon from '@mui/icons-material/Work';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import Divider from '@mui/material/Divider';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import Button from 'react-bootstrap/Button';
 import Box from '@mui/material/Box';
@@ -29,6 +29,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Drawer from '@mui/material/Drawer';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 import "./Navbar.css"
 
 
@@ -44,6 +49,52 @@ const Navbar = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleModalOpen = () => setOpen(true);
     const handleModalClose = () => setOpen(false);
+
+    const history=useHistory();
+
+    function allNotifs() {
+    history.push(`/Notifications`)
+    }
+
+    const [state, setState] = React.useState({
+      top: false,
+      left: false,
+      bottom: false,
+      right: false,
+    });
+  
+    const toggleDrawer = (anchor, open) => (event) => {
+      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+      }
+  
+      setState({ ...state, [anchor]: open });
+    };
+  
+    const list = (anchor) => (
+      <Box
+      
+        sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 400 }}
+        role="presentation"
+        onClick={toggleDrawer(anchor, false)}
+        onKeyDown={toggleDrawer(anchor, false)}
+      >
+        <List>
+        <h1>Notifications</h1>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+          <Button onClick={allNotifs}>See All</Button>
+        </List>
+      </Box>
+    );
   
     
 
@@ -207,22 +258,24 @@ const Navbar = (props) => {
             <Link className="navbar-brand" to="/" >spiel</Link>
             <NavLink className="nav-link"  to="/group">groups</NavLink>
 
-             {/* Notification Dropdown */}
-            <Dropdown>
-      <Dropdown.Toggle variant="failure" id="dropdown-basic">
-        Notifications
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Notification 1</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Notification 2</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Notification 3</Dropdown.Item>
-        <Dropdown.Item href="/Notifications">See All</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+             {/* NOTIFICATIONS */}
+             <div>
+      {['right'].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Button variant="none" onClick={toggleDrawer(anchor, true)}>Notifications</Button>
+          <Drawer
+            anchor={anchor}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+          >
+            {list(anchor)}
+          </Drawer>
+        </React.Fragment>
+      ))}
+    </div>
 
             <Button variant="none" onClick={handleShow}>Chats  </Button>
-            <NavLink className="nav-link"  to="/group">Settings</NavLink>
+            <NavLink className="nav-link"  to="/settings">Settings</NavLink>
 
                 {
                     props.isAuth 
