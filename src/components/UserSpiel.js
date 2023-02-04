@@ -17,14 +17,14 @@ const UserSpiel = (props) => {
     const [message, setMessage] = useState('');
     const [spielID, setSpielID] = useState('');
     const [group, setGroup] = useState('');
-    const [feed, setFeed] = useState([]);
+    const [feed, setFeed] = useState(["nothing to see here yet!"]);
     const history=useHistory();
 
    //calling the functions 
  
     
-    function callHistory() {
-        history.push(`/SpielPost`)
+    function callHistory(idy) {
+        history.push(`/spiel/post/${idy}`)
         }
 
     const [val,setVal]=useState('')
@@ -61,6 +61,7 @@ const UserSpiel = (props) => {
                     }).then(response => {
                         console.log(response)
                         console.log("my iddddddddddd", id)
+                        callHistory(data)
                     })
                     .catch(error => console.log('===> Error', error));
             })
@@ -124,9 +125,9 @@ const UserSpiel = (props) => {
       }
 
     const callFunctions = (e) => {
-        handleSubmit(e);
         handleAssociation(e);
-        callHistory();
+        handleSubmit(e);
+        
     }
 
 

@@ -8,6 +8,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Avatar from '@mui/material/Avatar';
+import LikeButton from './LikeButton';
+import CommentButton from './CommentButton';
 
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
@@ -18,7 +20,9 @@ const { REACT_APP_SERVER_URL } = process.env;
 
 const GroupPage = (props) => {
     const [open, setOpen] = React.useState(false);
+    const [openY, setOpenY] = useState(false)
     const [show, setShow] = useState(false);
+    const [likes, setLikes]= useState()
     const { idx } = useParams();
     const { user } = props;
    const { name, id, email, } = user;
@@ -26,15 +30,15 @@ const GroupPage = (props) => {
     const [group, setGroup] = useState('');
     const [newMessage, setNewMessage] = useState('');
     const [feed, setFeed] = useState([]);
-
-    console.log("name", name)
+    const [commentIdArray, setCommentIdArray] = useState([])
+    const [commentArray, setCommentArray] = useState([])
 
     const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const history=useHistory();
 
-    function postredir() {
-        history.push(`/SpielPost`)
+    function postredir(idy) {
+        history.push(`/spiel/post/${idy}`)
         }
 
     const handleMessage = (e) => {
@@ -49,9 +53,31 @@ const GroupPage = (props) => {
         if (name===mapname){
           return <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
         }else {
-          console.log("wrong user")
+          return
         }
       }
+
+      const likeNumber = (spielID) => {
+        axios.get(`${REACT_APP_SERVER_URL}/spiel/${spielID}` )
+        .then(response => {
+
+          setLikes(response.data.spiel[0].likes)
+       }).catch(error => console.log('===> Error', error));
+            return(
+       <p style={{color:"black", bottom:"20px", left: "5%", position: "absolute"}}>{likes}</p>
+          )
+    }
+    
+    const handleLike = (spielID) => {
+      axios.put(`${REACT_APP_SERVER_URL}/spiel/${spielID}/like` )
+      .then(response => {
+        setOpenY(true)
+        console.log(response)
+    
+       console.log(' updated ===>', response );
+     })
+     .catch(error => console.log('===> Error', error));
+    }
 
       const handleAssociation = (e) => {
         console.log("func 2")
@@ -189,6 +215,27 @@ const GroupPage = (props) => {
         </Alert>
       </Collapse>
     </Box>
+    <Box sx={{ width: '100%' }}>
+      <Collapse in={openY}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpenY(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2, zIndex: 100, position: 'absolute', }}
+        >
+          Post liked!
+        </Alert>
+      </Collapse>
+    </Box>
         <div className="row mt-4" style={{ position: 'absolute', height: "50px", width: "60.2vw", top: "30px" }}>
         
             <div className="col-md-7 offset-md-3">
@@ -211,7 +258,7 @@ const GroupPage = (props) => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-          <Dropdown.Item onClick={postredir}>See Post</Dropdown.Item>
+          <Dropdown.Item onClick={(e)=> postredir(f._id)}>See Post</Dropdown.Item>
               {userCheck(f.name)}
             <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
 
@@ -221,8 +268,10 @@ const GroupPage = (props) => {
         <Card.Title>{f.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{f.group}</Card.Subtitle>
         <Card.Text> {f.message} </Card.Text>
-        <Button style={{backgroundColor: "transparent", position: "relative", width: "50px"}}variant="primary" onClick={handleClose}> 💬 </Button> <Button style={{backgroundColor: "transparent", position: "relative", width: "50px", left: "50px", bottom: "38px"}} variant="primary" onClick={handleClose}> 💓 </Button>
-          
+        <div>
+        <Button style={{background:"transparent", border: "none"}} onClick={(e)=> handleLike(f._id)}><LikeButton/></Button>
+        <Button style={{background: "transparent", border:"none"}} onClick={handleClose}> <CommentButton/> </Button> 
+        </div>
       </Card>
 
       <Modal show={show} onHide={handleClose}>

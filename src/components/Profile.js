@@ -3,12 +3,17 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import UserCard from './UserCard';
 import Card from 'react-bootstrap/Card';
+import { Button } from 'react-bootstrap';
 import GroupsChart from './GroupsChart';
+import ProfileNav from './ProfileNav';
+import LikeButton from './LikeButton';
+import CommentButton from './CommentButton';
 
 const Profile = (props) => {
     const [image, setImage] = useState(props.user.image); 
    const { handleLogout, user } = props;
    const { name, id, email, exp } = user;
+   const [selectedFeed, setSelectedFeed] = useState()
    const [profileFeed, setProfileFeed]= useState([])
    
    const expirationTime = new Date(exp * 1000);
@@ -21,11 +26,44 @@ const Profile = (props) => {
        axios.get(`${REACT_APP_SERVER_URL}/users/${id}/spiels`)
         .then((response) => {
          setProfileFeed(response.data.Spiels);
+         setSelectedFeed('My Posts')
             console.log("response.data", response.data.Spiels);
             console.log("profile feed", profileFeed)
     
         }).catch((err) => { console.log('****************ERROR', err) });
     }, []);
+
+    const likeFeed = () => {
+              setAuthToken(localStorage.getItem('jwtToken'));
+             axios.get(`${REACT_APP_SERVER_URL}/users/likes/${id}`)
+              .then((response) => {
+               setProfileFeed(response.data.Spiels);
+               setSelectedFeed('My Likes')
+              }).catch((err) => { console.log('****************ERROR', err) });
+    }
+
+    const commentFeed = () => {
+      setAuthToken(localStorage.getItem('jwtToken'));
+     axios.get(`${REACT_APP_SERVER_URL}/comment/${name}`)
+      .then((response) => {
+       setProfileFeed(response.data.comment);
+       setSelectedFeed('My Comments')
+      }).catch((err) => { console.log('****************ERROR', err) });
+}
+
+    const regularFeed = () => {
+        setAuthToken(localStorage.getItem('jwtToken'));
+        axios.get(`${REACT_APP_SERVER_URL}/users/${id}/spiels`)
+         .then((response) => {
+          setProfileFeed(response.data.Spiels);
+          setSelectedFeed('My Posts')
+             console.log("response.data", response.data.Spiels);
+             console.log("profile feed", profileFeed)
+     
+         }).catch((err) => { console.log('****************ERROR', err) });
+}
+
+
 
 
 
@@ -54,12 +92,23 @@ axios.get(`${REACT_APP_SERVER_URL}/users/${id}`, path )
   .catch(error => console.log('===> Error', error));
 }
 
+const handleLike = () => {
+
+}
+
+const likeNumber = () => {
+
+}
+
+
+
 
     
     return (
 
         <div className="text-center pt-4">
-            <h1>My Posts</h1> 
+            <ProfileNav const regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} id={props.user.id}/>
+            <h1>{selectedFeed}</h1> 
         {profileFeed?.map((idx) =>   <div>  <Card style={{ top: "10vh", left:"20vw", position:"relative", width: '25vw' }}>
       <Card.Body>
         <Card.Title>{idx.name}</Card.Title>
@@ -67,8 +116,8 @@ axios.get(`${REACT_APP_SERVER_URL}/users/${id}`, path )
         <Card.Text>
           {idx.message}
         </Card.Text>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
+        <Button style={{background:"transparent", border: "none"}} onClick={ handleLike}><LikeButton/>{likeNumber}</Button>
+        <Button style={{background: "transparent", border:"none"}}> <CommentButton/> </Button> 
       </Card.Body>
     </Card></div>)}
             <GroupsChart id={id} />

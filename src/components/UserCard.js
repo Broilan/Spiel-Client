@@ -59,7 +59,7 @@ axios.put(`${REACT_APP_SERVER_URL}/users/${id}`, data )
 
   return (
     <div>
-    <Card style={{ position: "absolute", top:"25vh", left:"8vw", width: '25rem', height:"450px", padding: "10px" }}>
+    <Card style={{ position: "fixed", top:"25vh", left:"3vw", width: '25rem', height:"450px", padding: "10px" }}>
       <Card.Body>
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         <Card.Title className="mb-2 text-muted">{name}</Card.Title>

@@ -22,7 +22,7 @@ function GroupsChart(props) {
 
   return (
     <div>
-    <ListGroup as="ol" numbered style={{width: "300px", position: "absolute", top: "25vh",  right: "10%"}}>
+    <ListGroup as="ol" numbered style={{width: "300px", position: "fixed", top: "25vh",  right: "10%"}}>
         <h1>My Groups</h1> 
            {groupFeed?.map((group) =>       <ListGroup.Item
         as="li"
