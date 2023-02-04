@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import LikeButton from './LikeButton';
@@ -18,6 +17,7 @@ import { useHistory } from "react-router-dom";
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 
 const { REACT_APP_SERVER_URL } = process.env;
 const Spiel = (props) => {
@@ -180,7 +180,7 @@ const Spiel = (props) => {
 
 
   return (
-    <div  style={{ position: "relative", top: "30vh", left: "289px" }}>
+    <div  style={{ position: "relative"}}>
                   <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
         <Alert
@@ -203,7 +203,7 @@ const Spiel = (props) => {
       </Collapse>
     </Box>
       
-      <Card style={{ cursor:"pointer", position: "relative", width: "34vw", maxheight: "300px" }}>
+      <Card style={{ cursor:"pointer", position: "relative", maxheight: "300px" }}>
         <Dropdown style={{position: "relative", left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>

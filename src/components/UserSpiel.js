@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import Spiel from './Spiel'
-import Skeleton from '@mui/material/Skeleton';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';import { useParams, Link, useHistory } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 const { REACT_APP_SERVER_URL } = process.env;
 
 
@@ -13,12 +17,15 @@ const UserSpiel = (props) => {
     const [groupFeed, setGroupFeed]= useState([])
     const [name, setName] = useState(props.name);
     const id = props.id
+    const [person, setPerson] = useState('/static/images/avatar/5.jpg')
+
 
     const [message, setMessage] = useState('');
     const [spielID, setSpielID] = useState('');
     const [group, setGroup] = useState('');
     const [feed, setFeed] = useState(["nothing to see here yet!"]);
     const history=useHistory();
+
 
    //calling the functions 
  
@@ -130,27 +137,38 @@ const UserSpiel = (props) => {
         
     }
 
-
     return (
         <div>
-            <div className="row mt-4" style={{ position: 'absolute', height: "50px", width: "60.2vw", top: "30px" }}>
-                <div className="col-md-7 offset-md-3">
+            <div>
+                <div>
                     <div className="card card-body">
-                        <h2 className="py-2">Spiel</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                            <h3 htmlFor="Group">Group</h3>
-                            <input list="data" value={group} onChange={(e)=>setGroup(e.target.value)} placeholder="Search Groups" />
-                                <datalist id="data">
-                                    {groupFeed.map((idx)=><div><option>{idx.groupName}</option></div>)}
-                                </datalist>
+                            <ListItem>
+                            <ListItemAvatar>
+                                    <Avatar alt="Profile Picture" src={person} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={name} secondary={       
+                                    
+                                    <Dropdown>select a group
+          <Dropdown.Toggle variant="failure" id="dropdown-basic"> </Dropdown.Toggle>
+         
+            
+          <Dropdown.Menu>
+          <input list="data" value={group} onChange={(e)=>setGroup(e.target.value)} placeholder="Search Groups" />
+            <datalist id="data">
+                {groupFeed.map((idx)=><div><option>{idx.groupName}</option></div>)}
+            </datalist>
+          </Dropdown.Menu>
+        </Dropdown>}/>
+        <ListItemText secondary={`group selected: ${group}`}/>
+                                </ListItem>
                             </div>
                             <div className="form-group">
-                                <h3 htmlFor="Spiel">Message</h3>
                                 <input type="message" name="message" value={message} onChange={handleMessage} className="form-control" />
                             </div>
                             <input onClick={callFunctions 
-                            } type="submit" className="btn btn-primary float-right" value="Submit" />
+                            } type="submit" className="btn btn-primary float-right" value="spiel" style={{borderRadius:"110px", fontWeight:'bold'}} />
                         </form>
                     </div>
                 </div>

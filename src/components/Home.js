@@ -3,6 +3,7 @@ import UserSpiel from "./UserSpiel"
 import GroupsChart from "./GroupsChart"
 import Spiel from "./Spiel"
 import UserCard from './UserCard';
+import './home.css'
 
 const Home = (props) => {
 
@@ -10,10 +11,12 @@ const Home = (props) => {
         
 
     return (
-        <div>
+        <div className='home'>
             <UserCard name={name} email={email} id={id}/>
+            <div className='spielFeed'>
             < UserSpiel  name={name} id={id}/>
             < Spiel />
+            </div>
             < GroupsChart id={id}/>
         </div>
     )

@@ -1,0 +1,12 @@
+.home {
+    display: flex;
+    justify-content: center;
+}
+
+.spielFeed {
+    border:  1px solid white;
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    justify-content: center;
+}

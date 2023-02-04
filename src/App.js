@@ -26,6 +26,7 @@ import NotificationsPage from './components/NotificationsPage'
 import Settings from './components/Settings';
 import SpielPost from './components/SpielPost';
 import likeButton from './components/LikeButton';
+import Testing from './components/testing';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -60,6 +61,7 @@ function App(props) {
 
 
 
+
   const nowCurrentUser = (userData) => {
     console.log('===> nowCurrent is here.');
     setCurrentUser(userData);
@@ -80,8 +82,7 @@ function App(props) {
     <Router>
     <div className="App">
       <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} />
-
-      <div className="container mt-5">
+      <div className="container">
         <Switch>
           <Route path='/signup' component={Signup} />
           <Route 
@@ -98,6 +99,7 @@ function App(props) {
           <Route path="/Notifications" component={NotificationsPage} />
           <Route path="/likebutton" component={likeButton} />
           <Route path="/Settings" component={Settings} />
+          <Route path="/testing" component={Testing} />
           <PrivateRoute exact path="/spiel/post/:id" component={SpielPost} currentUser={currentUser}/>
           
         </Switch>

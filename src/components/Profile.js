@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import GroupsChart from './GroupsChart';
 import ProfileNav from './ProfileNav';
 import LikeButton from './LikeButton';
+import "./profile.css"
 import CommentButton from './CommentButton';
 
 const Profile = (props) => {
@@ -105,11 +106,12 @@ const likeNumber = () => {
 
     
     return (
-
-        <div className="text-center pt-4">
-            <ProfileNav const regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} id={props.user.id}/>
+      <div style={{position: "absolute", width: '100vw', left: "0px"}}>
+        <ProfileNav const regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} id={props.user.id}/>
+        <div className="home">
+            
             <h1>{selectedFeed}</h1> 
-        {profileFeed?.map((idx) =>   <div>  <Card style={{ top: "10vh", left:"20vw", position:"relative", width: '25vw' }}>
+        {profileFeed?.map((idx) =>   <div >  <Card className="spielFeed"style={{position:"relative"}}>
       <Card.Body>
         <Card.Title>{idx.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{idx.group}</Card.Subtitle>
@@ -126,6 +128,7 @@ const likeNumber = () => {
                             <input onChange={handleNewImage} type='file' name="image" />
                         </form>
                         <UserCard style={{position: "absolute"}}name={name} email={email} id={id} />
+        </div>
         </div>
         
     );

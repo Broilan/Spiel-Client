@@ -1,11 +1,18 @@
 html {
   position: relative;
   min-height: 100%;
+  min-width: 100%;
 }
 body {
   background-color: rgb(231, 226, 226);
   margin-bottom: 60px; /* Margin bottom by footer height */
+  overflow-x: hidden;
 }
+
+.container {
+  width: 100vw;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

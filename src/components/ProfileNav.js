@@ -10,7 +10,7 @@ function ProfileNav(props) {
     const commentFeed = props.commentFeed
   return (
     <>
-      <Navbar bg="dark" variant="dark" style={{position:"absolute", width:"100vw", left: "0%", top: "4%"}}>
+      <Navbar bg="dark" variant="dark" style={{width: "100vw"}}>
         <Container>
           <Nav className="me-auto">
             <Nav.Link onClick={regularFeed}>my posts</Nav.Link>
