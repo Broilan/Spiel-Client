@@ -203,7 +203,7 @@ const Spiel = (props) => {
       </Collapse>
     </Box>
       
-      <Card style={{ cursor:"pointer", position: "relative", maxheight: "300px" }}>
+      <Card style={{ cursor:"pointer", position: "relative", maxheight: "300px", borderRadius: "0px", border:"1px solid gray", paddingLeft: "10px" }}>
         <Dropdown style={{position: "relative", left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>

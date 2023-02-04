@@ -3,6 +3,7 @@ import UserSpiel from "./UserSpiel"
 import GroupsChart from "./GroupsChart"
 import Spiel from "./Spiel"
 import UserCard from './UserCard';
+import HomeBanner from './HomeBanner';
 import './home.css'
 
 const Home = (props) => {
@@ -12,11 +13,12 @@ const Home = (props) => {
 
     return (
         <div className='home'>
-            <UserCard name={name} email={email} id={id}/>
-            <div className='spielFeed'>
+             <div className='spielFeed'>
+            <HomeBanner />
             < UserSpiel  name={name} id={id}/>
             < Spiel />
             </div>
+            <UserCard name={name} email={email} id={id}/>
             < GroupsChart id={id}/>
         </div>
     )

@@ -139,9 +139,9 @@ const UserSpiel = (props) => {
 
     return (
         <div>
-            <div>
+            <div >
                 <div>
-                    <div className="card card-body">
+                    <div className="card card-body" style={{borderRadius: "0px solid-black", border:"1px solid gray"}}>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                             <ListItem>
