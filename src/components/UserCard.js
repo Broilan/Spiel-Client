@@ -7,6 +7,9 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { GoGear } from 'react-icons/go';
 
 const { REACT_APP_SERVER_URL } = process.env;
@@ -15,6 +18,9 @@ function UserCard(props) {
   const [name, setName] = useState(props.name)
   const [bio, setBio] = useState(props.bio)
   const [email, setEmail] = useState(props.email)
+  const [followersNumber, setFollowersNumber] = useState(props.followersNumber)
+  const [followingNumber, setFollowingNumber] = useState(props.followingNumber)
+  console.log(followersNumber, followingNumber)
   const id = props.id
 
 
@@ -23,6 +29,7 @@ function UserCard(props) {
   const [newEmail, setNewEmail] = useState('');
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+  const [person, setPerson] = useState('/static/images/avatar/5.jpg')
   const handleShow = () => setShow(true);
 
   
@@ -59,11 +66,14 @@ axios.put(`${REACT_APP_SERVER_URL}/users/${id}`, data )
 
   return (
     <div>
-    <Card style={{ position: "fixed", top:"25vh", left:"3vw", width: '25rem', height:"450px", padding: "10px" }}>
+    <Card style={{ position: "fixed", top:"25vh", left:"3vw", width: '25rem', height:"450px", padding: "10px", border:"solid black" }}>
       <Card.Body>
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        <Card.Title className="mb-2 text-muted">{name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{email}</Card.Subtitle>
+      <ListItem>
+        <ListItemAvatar>
+            <Avatar alt="Profile Picture" src={person} />
+              </ListItemAvatar>
+              <ListItemText primary={name} secondary={email} />
+                </ListItem>
         <Card.Text>
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
@@ -77,7 +87,10 @@ axios.put(`${REACT_APP_SERVER_URL}/users/${id}`, data )
             <Dropdown.Item >See Settings</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-        <Card.Link href="#">Another Link</Card.Link>
+        <div style={{display: "flex"}}>
+        <ListItemText primary="followers" secondary={followersNumber} />
+        <ListItemText primary="following" secondary={followingNumber} />
+        </div>
       </Card.Body>
     </Card>
 

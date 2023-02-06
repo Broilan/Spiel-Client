@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forceUpdate } from 'react';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import Spiel from './Spiel'
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';import { useParams, Link, useHistory } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
+import { useParams, Link, useHistory } from 'react-router-dom';
+import HomeBanner from './HomeBanner';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const { REACT_APP_SERVER_URL } = process.env;
@@ -22,6 +24,8 @@ const UserSpiel = (props) => {
 
     const [message, setMessage] = useState('');
     const [spielID, setSpielID] = useState('');
+    const [followers, setFollowers] = useState([])
+    const [following, setFollowing] = useState([])
     const [group, setGroup] = useState('');
     const [feed, setFeed] = useState(["nothing to see here yet!"]);
     const history=useHistory();
@@ -101,7 +105,6 @@ const UserSpiel = (props) => {
         setAuthToken(localStorage.getItem('jwtToken'));
         axios.get(`${REACT_APP_SERVER_URL}/group`)
             .then((response) => {
-                console.log(response.data.group);
                 setGroupFeed(response.data.group);
         
             }).catch((err) => { console.log('****************ERROR', err) });
@@ -110,12 +113,36 @@ const UserSpiel = (props) => {
     useEffect(() => {
         setAuthToken(localStorage.getItem('jwtToken'));
         axios.get(`${REACT_APP_SERVER_URL}/spiel`)
-            .then((response) => {
-                console.log(response.data.spiel);
+            .then((response) => {                
                 setFeed(response.data.spiel);
-
+            console.log(feed)
             }).catch((err) => { console.log('****************ERROR', err) });
     }, []);
+
+    const followingFeed = () => {
+        setAuthToken(localStorage.getItem('jwtToken'));
+        axios.get(`${REACT_APP_SERVER_URL}/users/following/${name}`)
+          .then((response) => {
+            const fIdFeed =[]
+            const fFeed= []
+         const responseData =response.data.UserFollowing
+         responseData.map((u) =>u.spiels.map((s) => fIdFeed.push(s))) 
+         fIdFeed.map((s) => (axios.get(`${REACT_APP_SERVER_URL}/spiel/${s}`)
+         .then((response) => {
+            if (response.data.spiel==null) {
+                return 
+            }else {
+             fFeed.push(response.data.spiel)
+              setFeed(fFeed)   
+            }    
+         })
+         ))
+            
+    
+         console.log("feed after set", feed)
+        }).catch((err) => { console.log('****************ERROR', err) });
+      }
+      
 
     const handleDelete = (id) => {
 
@@ -139,9 +166,11 @@ const UserSpiel = (props) => {
 
     return (
         <div>
+            <HomeBanner followingFeed={followingFeed} />
             <div >
                 <div>
-                    <div className="card card-body" style={{borderRadius: "0px solid-black", border:"1px solid gray"}}>
+                    
+                    <div className="card card-body" style={{borderRadius: "0px", border:"3px solid black"}}>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                             <ListItem>
@@ -173,7 +202,7 @@ const UserSpiel = (props) => {
                     </div>
                 </div>
             </div>
-            {feed?.map((f, idx) => <Spiel handleDelete={handleDelete} username={name} spielID={f._id} key={idx} name={f.name} message={f.message} group={f.group} />)}
+            {feed?.map((f, idx) =>  <Spiel handleDelete={handleDelete} username={name} spielID={f._id} key={idx} name={f.name} message={f.message} group={f.group} />, console.log(feed))}
         </div>
     );
 }

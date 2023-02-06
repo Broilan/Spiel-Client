@@ -36,7 +36,7 @@ function GroupsChart(props) {
     <div>
     <ListGroup as="ol" numbered style={{width: "300px", position: "fixed", top: "25vh",  right: "10%", cursor: "pointer"}}>
         <h1>My Groups</h1> 
-           {groupFeed?.map((group) =>       <ListGroup.Item 
+           {groupFeed?.map((group) =>       <ListGroup.Item style={{border:"solid black"}}
         as="li"
         onClick={(e)=> takeTo(group._id)}
         className="d-flex justify-content-between align-items-start"

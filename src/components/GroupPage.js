@@ -10,13 +10,19 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Avatar from '@mui/material/Avatar';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
-
+import HomeBanner from './HomeBanner';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
+import { autocompleteClasses } from '@mui/material';
+import GroupBanner from './GroupBanner';
 const { REACT_APP_SERVER_URL } = process.env;
+
 
 const GroupPage = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -32,6 +38,8 @@ const GroupPage = (props) => {
     const [feed, setFeed] = useState([]);
     const [commentIdArray, setCommentIdArray] = useState([])
     const [commentArray, setCommentArray] = useState([])
+    const [person, setPerson] = useState('/static/images/avatar/5.jpg')
+
 
     const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -193,7 +201,7 @@ const GroupPage = (props) => {
 
     return (
             <div>
-            <input onClick={twoFuncs} type="submit" className="btn btn-primary float-right" value="Join Group" />
+            <input onClick={twoFuncs} type="submit" className="btn btn-primary float-right" value={`Join ${group}`} />
             <Box sx={{ width: '100%' }}>
       <Collapse in={open}>
         <Alert
@@ -236,23 +244,28 @@ const GroupPage = (props) => {
         </Alert>
       </Collapse>
     </Box>
-        <div className="row mt-4" style={{ position: 'absolute', height: "50px", width: "60.2vw", top: "30px" }}>
-        
-            <div className="col-md-7 offset-md-3">
-                <h1>Welcome to the {group} group!</h1>
-                <div className="card card-body">
-                    <h2 className="py-2">Spiel</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="Spiel">Message</label>
-                            <input type="message" name="message" value={message} onChange={handleMessage} className="form-control" />
-                        </div>
-                        <input onClick={callFunctions} type="submit" className="btn btn-primary float-right" value="Submit" />
-                    </form>
-                </div>
-            </div>
-        </div>
-        {feed?.map((f, idx) =>         <div><Card style={{ cursor:"pointer", position: "relative", left:"15vw", top:"35vh", width: "34vw", maxheight: "300px" }}>
+    <GroupBanner  group={group}/>
+                <div style ={{display:"flex", flexDirection:"column", justifyContent:"center", marginTop:"6.5rem"}}>
+                  
+                    <div className="card card-body" style={{borderRadius: "0px", border:"3px solid black", width: '30vw', justifySelf:"center", alignSelf:"center"}}>
+                        <form >
+                            <div className="form-group">
+                            <ListItem>
+                            <ListItemAvatar>
+                                    <Avatar alt="Profile Picture" src={person} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={name} />
+        <ListItemText secondary={`group selected: ${group}`}/>
+                                </ListItem>
+                            </div>
+                            <div className="form-group">
+                                <input type="message" name="message" value={message} onChange={handleMessage} className="form-control" />
+                            </div>
+                            <input onClick={callFunctions 
+                            } type="submit" className="btn btn-primary float-right" value="spiel" style={{borderRadius:"110px", fontWeight:'bold'}} />
+                        </form>
+                    </div>
+        {feed?.map((f, idx) =>         <div style ={{justifySelf:"center", alignSelf:"center"}}><Card style={{ borderRadius: "0px", border:"3px solid black", width: '30vw' }}>
         <Dropdown style={{position: "relative", left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>
@@ -269,7 +282,7 @@ const GroupPage = (props) => {
         <Card.Subtitle className="mb-2 text-muted">{f.group}</Card.Subtitle>
         <Card.Text> {f.message} </Card.Text>
         <div>
-        <Button style={{background:"transparent", border: "none"}} onClick={(e)=> handleLike(f._id)}><LikeButton/></Button>
+        <Button style={{background:"transparent", border: "none"}} onClick={(e)=> handleLike(f._id)}><LikeButton/>{likeNumber()}</Button>
         <Button style={{background: "transparent", border:"none"}} onClick={handleClose}> <CommentButton/> </Button> 
         </div>
       </Card>
@@ -295,10 +308,11 @@ const GroupPage = (props) => {
             Save Changes
           </Button>
         </Modal.Footer>
-      </Modal></div>)}
+      </Modal></div>)}</div>
     
     </div>
     )
 }
 
 export default GroupPage;
+

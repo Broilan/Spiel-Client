@@ -8,6 +8,8 @@ function ProfileNav(props) {
     const likeFeed = props.likeFeed
     const regularFeed = props.regularFeed
     const commentFeed = props.commentFeed
+    const followersFeed = props.followersFeed
+    const followingFeed = props.followingFeed
   return (
     <>
       <Navbar bg="dark" variant="dark" style={{width: "100vw"}}>
@@ -16,6 +18,8 @@ function ProfileNav(props) {
             <Nav.Link onClick={regularFeed}>my posts</Nav.Link>
             <Nav.Link onClick={likeFeed}>my likes</Nav.Link>
             <Nav.Link onClick={commentFeed}>my comments</Nav.Link>
+            <Nav.Link onClick={followersFeed}>followers</Nav.Link>
+            <Nav.Link onClick={followingFeed}>following</Nav.Link>
             <Nav.Link href="#pricing">etc</Nav.Link>
           </Nav>
         </Container>

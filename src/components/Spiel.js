@@ -18,6 +18,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import FollowButton from './FollowButton';
 
 const { REACT_APP_SERVER_URL } = process.env;
 const Spiel = (props) => {
@@ -28,10 +29,7 @@ const Spiel = (props) => {
   const [newMessage, setNewMessage] = useState();
   const [newGroup, setNewGroup] = useState('');
   const [modalType, setModalType] = useState('')
-  
-
-
-
+ const [followNum, setFollowNum] = useState(0)
   const name = props.name
   const username=props.username
   const [message, setMessage] = useState(props.message);
@@ -39,23 +37,48 @@ const Spiel = (props) => {
   const [likes, setLikes] = useState()
   const [which, setWhich] = useState('')
   const [postButton, setPostButton] = useState('')
+  const [followButton, setFollowButton] = useState()
+
   const [formGroup, setFormGroup] = useState('')
   const [editOrPost, setEditOrPost] = useState()
   const [person, setPerson] = useState('/static/images/avatar/5.jpg')
     const spielID = props.spielID
   const handleDelete = props.handleDelete
-
   const history=useHistory();
-
 
 
   function userCheck(){
     if (username==name){
       return <Dropdown.Item onClick={callDelete}>Delete</Dropdown.Item>
     }else {
-      console.log("wrong user")
+      return
     }
   }
+
+  function checkIfUserFollows(name){
+    axios.get(`${REACT_APP_SERVER_URL}/users/following/${username}`)
+             .then(response => {
+                const following = response.data.UserFollowing
+    for (let i = 0; i < following?.length; i++) {
+      console.log(following[i].name, name, username)
+      if (following[i].name == name) {
+         setFollowButton(false)
+         break
+       }else if(name == username){
+         setFollowButton(false)
+         break
+      }
+      else {
+       console.log("names don't match")
+      }
+    }
+  })
+  }
+
+  useEffect(() => [
+  setFollowButton(<Button style={{background:"transparent", border: "none"}} onClick={handleFollow}><FollowButton/></Button>)
+  ], [])
+
 
   function postredir() {
   history.push(`/spiel/post/${spielID}`)
@@ -176,6 +199,15 @@ const Spiel = (props) => {
    .catch(error => console.log('===> Error', error));
 }
 
+const handleFollow = () => {
+  axios.put(`${REACT_APP_SERVER_URL}/users/${username}/follow/${name}` )
+  .then(response => {
+    setOpen(true)
+    console.log(response)
+   console.log(' updated ===>', response );
+ })
+ .catch(error => console.log('===> Error', error));
+}
 
 
 
@@ -203,8 +235,8 @@ const Spiel = (props) => {
       </Collapse>
     </Box>
       
-      <Card style={{ cursor:"pointer", position: "relative", maxheight: "300px", borderRadius: "0px", border:"1px solid gray", paddingLeft: "10px" }}>
-        <Dropdown style={{position: "relative", left: "93%"}}>
+      <Card style={{ cursor:"pointer", position: "relative", maxHeight: "500px", borderRadius: "0px", paddingLeft: "10px", border:"2px solid black" }}>
+        <Dropdown style={{ left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>
             
@@ -214,10 +246,16 @@ const Spiel = (props) => {
           {userCheck()}
           </Dropdown.Menu>
         </Dropdown>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <div style={{position:"relative", display:"flex", flexDirection:"column", top: "-25px"}}>
+        <div style={{display: "flex",}}>
+        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" style={{marginRight:"5px"}} />
+        {checkIfUserFollows(name)}
+        {followButton}
+        </div>
         <Card.Title>{name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{group}</Card.Subtitle>
         <Card.Text> {message} </Card.Text>
+        </div>
         <div>
         <Button style={{background:"transparent", border: "none"}} onClick={(e)=> handleLike(spielID)}><LikeButton/>{likeNumber(spielID)}</Button>
         <Button style={{background: "transparent", border:"none"}} onClick={handleShowB}> <CommentButton/> </Button> 

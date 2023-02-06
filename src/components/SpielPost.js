@@ -11,6 +11,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import Avatar from '@mui/material/Avatar';
 import Comment from './Comment';
+import FollowButton from './FollowButton';
 const { REACT_APP_SERVER_URL } = process.env;
 
 
@@ -34,6 +35,7 @@ const Spiel = (props) => {
   const handleShow = () => setShow(true);
 
   const [poster, setPoster] = useState();
+  const [followButton, setFollowButton] = useState()
   const [message, setMessage] = useState();
   const [group, setGroup] = useState();
   const [commentIdArray, setCommentIdArray] = useState([]);
@@ -59,6 +61,34 @@ const Spiel = (props) => {
       )
 }
 
+function checkIfUserFollows(){
+  axios.get(`${REACT_APP_SERVER_URL}/users/following/${currentUser}`)
+           .then(response => {
+              const following = response.data.UserFollowing
+  for (let i = 0; i < following?.length; i++) {
+    if (following[i].name == poster) {
+       setFollowButton(false)
+       break
+     }else if(currentUser == poster){
+       setFollowButton(false)
+       break
+    }
+    else {
+     console.log("names don't match")
+    }
+  }
+})
+}
+
+const handleFollow = () => {
+  axios.put(`${REACT_APP_SERVER_URL}/users/${currentUser}/follow/${poster}` )
+  .then(response => {
+    console.log(response)
+   console.log(' updated ===>', response );
+ })
+ .catch(error => console.log('===> Error', error));
+}
+
   const handleLike = () => {
     axios.put(`${REACT_APP_SERVER_URL}/spiel/${idx.id}/like` )
     .then(response => {
@@ -82,6 +112,7 @@ const Spiel = (props) => {
         setAuthToken(localStorage.getItem('jwtToken'));
         axios.get(`${REACT_APP_SERVER_URL}/spiel/${idx.id}`)
             .then((response) => {
+              setFollowButton(<Button style={{background:"transparent", border: "none"}} onClick={handleFollow}><FollowButton/></Button>)
                 console.log("responsedata", response.data.spiel);
                   setPoster(response.data.spiel.name) 
                    setMessage(response.data.spiel.message)
@@ -108,13 +139,16 @@ const Spiel = (props) => {
         <Dropdown style={{postion: "relative", left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>
-
+          {checkIfUserFollows()}
           <Dropdown.Menu>
             <Dropdown.Item onClick={callDelete}>Delete</Dropdown.Item>
             <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        <div style = {{display:"flex"}}>
         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <div>{followButton}</div>
+        </div>
         <Card.Title>{poster}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{group}</Card.Subtitle>
         <Card.Text> {message} </Card.Text>
