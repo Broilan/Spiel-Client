@@ -1,6 +1,5 @@
 import React from 'react';
 import UserSpiel from "./UserSpiel"
-import GroupsChart from "./GroupsChart"
 import UserCard from './UserCard';
 import './home.css'
 
@@ -15,7 +14,6 @@ const Home = (props) => {
             < UserSpiel  name={name} id={id}/>
             </div>
             <UserCard name={name} email={email} id={id}/>
-            < GroupsChart id={id}/>
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Avatar from '@mui/material/Avatar';
 import CommentButton from './CommentButton';
@@ -18,6 +19,8 @@ const Comment = (props) => {
   const comments = props.comments
   const ogPostId = props.ogPostId
 
+  const history = useHistory()
+
   const handleLike = () => {
 
   }
@@ -25,12 +28,22 @@ const Comment = (props) => {
   const likeNumber = () => {
 
   }
+
+  const takeToProfile = () => {
+    if (commenterName==currentUser) {
+    history.push(`/profile`)
+    } else {
+      history.push(`/users/${commenterName}`)
+    }
+  }
+
+
     
     return (
     <div>
-        <Card style={{ maxWidth:"100vw", width: '40vw' }}>
+        <Card style={{ borderRadius:"0px", width:"30vw", border:'2px solid black' }}>
           <Card.Body>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" onClick={takeToProfile} />
             <Card.Title>{commenterName}</Card.Title>
             <Card.Subtitle>{group}</Card.Subtitle>
             <Card.Text>

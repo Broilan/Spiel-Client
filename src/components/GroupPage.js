@@ -19,7 +19,6 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
-import { autocompleteClasses } from '@mui/material';
 import GroupBanner from './GroupBanner';
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -128,12 +127,13 @@ const GroupPage = (props) => {
     setAuthToken(localStorage.getItem('jwtToken'));
       axios.post(`${REACT_APP_SERVER_URL}/spiel`, newSpiel)
         .then(response => {
-            console.log('===> Yay, new spiel', newSpiel);
+            console.log('===> Yay, new spiel', response);
             const data = (response.data.spielID)
                 console.log("data", data)
                 axios.put(`${REACT_APP_SERVER_URL}/group/${group}/spiels/${data}`, newSpiel)
                 .then(response => {
                     console.log("responseY", response);
+                    postredir(data)
                 })
                 .catch(error => console.log('===> Error', error));
         })
@@ -195,7 +195,6 @@ const GroupPage = (props) => {
  const callFunctions = (e) => {
     handleSubmit(e);
     handleAssociation(e);
-    postredir();
 }
 
 
@@ -244,20 +243,26 @@ const GroupPage = (props) => {
         </Alert>
       </Collapse>
     </Box>
+    
     <GroupBanner  group={group}/>
                 <div style ={{display:"flex", flexDirection:"column", justifyContent:"center", marginTop:"6.5rem"}}>
-                  
-                    <div className="card card-body" style={{borderRadius: "0px", border:"3px solid black", width: '30vw', justifySelf:"center", alignSelf:"center"}}>
+                    <div className="card card-body" style={{borderRadius: "0px", border:"2px solid black", width: '29vw', justifySelf:"center", alignSelf:"center"}}>
+                    
                         <form >
-                            <div className="form-group">
+                         
+                            <div className="form-group"> 
+                            
                             <ListItem>
+                              
                             <ListItemAvatar>
                                     <Avatar alt="Profile Picture" src={person} />
                                     </ListItemAvatar>
                                     <ListItemText primary={name} />
         <ListItemText secondary={`group selected: ${group}`}/>
                                 </ListItem>
+                                
                             </div>
+                            
                             <div className="form-group">
                                 <input type="message" name="message" value={message} onChange={handleMessage} className="form-control" />
                             </div>
@@ -265,7 +270,7 @@ const GroupPage = (props) => {
                             } type="submit" className="btn btn-primary float-right" value="spiel" style={{borderRadius:"110px", fontWeight:'bold'}} />
                         </form>
                     </div>
-        {feed?.map((f, idx) =>         <div style ={{justifySelf:"center", alignSelf:"center"}}><Card style={{ borderRadius: "0px", border:"3px solid black", width: '30vw' }}>
+        {feed?.map((f, idx) =>         <div style ={{justifySelf:"center", alignSelf:"center"}}><Card style={{ borderRadius: "0px", border:"2px solid black", width: '29vw' }}>
         <Dropdown style={{position: "relative", left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>

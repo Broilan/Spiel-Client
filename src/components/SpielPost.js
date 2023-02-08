@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -12,7 +13,11 @@ import setAuthToken from '../utils/setAuthToken';
 import Avatar from '@mui/material/Avatar';
 import Comment from './Comment';
 import FollowButton from './FollowButton';
+import SpielBanner from './SpielBanner';
+import CommentForm from './CommentForm';
+import UserCard from './UserCard';
 const { REACT_APP_SERVER_URL } = process.env;
+
 
 
 
@@ -22,6 +27,7 @@ const { REACT_APP_SERVER_URL } = process.env;
 const Spiel = (props) => {
 
   const currentUser = props.currentUser.name
+  const userID = props.currentUser.id
   console.log(currentUser)
   
   const [show, setShow] = useState(false);
@@ -40,8 +46,9 @@ const Spiel = (props) => {
   const [group, setGroup] = useState();
   const [commentIdArray, setCommentIdArray] = useState([]);
   const [commentArray, setCommetArray] = useState([])
-  const handleDelete = props.handleDelete
 
+  const handleDelete = props.handleDelete
+const history = useHistory();
 
   const callDelete = (e) => {
     e.preventDefault();
@@ -49,12 +56,13 @@ const Spiel = (props) => {
   }   
 
   const idx = useParams()
-  console.log(idx.id)  
+
 
   const likeNumber = () => {
     axios.get(`${REACT_APP_SERVER_URL}/spiel/${idx.id}` )
     .then(response => {
       setLikes(response.data.spiel[0].likes)
+      console.log(likes)
    }).catch(error => console.log('===> Error', error));
         return(
    <p style={{color:"black", bottom:"20px", left: "5%", position: "absolute"}}>{likes}</p>
@@ -104,9 +112,13 @@ const handleFollow = () => {
    .catch(error => console.log('===> Error', error));
 }
 
-
-
-
+const takeToProfile = () => {
+  if (poster==currentUser) {
+  history.push(`/profile`)
+  } else {
+    history.push(`/users/${poster}`)
+  }
+}
   
   useEffect(() => {
         setAuthToken(localStorage.getItem('jwtToken'));
@@ -124,18 +136,17 @@ const handleFollow = () => {
                     setCommetArray(response.data.comment)
                     console.log(commentArray)
                    })
-                   
             }).catch((err) => { console.log('****************ERROR', err) });
     }, []);
 
 
 
   return (
-    <div>
-        <h1> {idx.id} </h1>
-    <div  style={{ position: "relative", maxWidth:"100vw", top: "5vh", left: "10vw" }}>
-      
-      <Card style={{ cursor:"pointer", position: "relative", width: "40vw", maxheight: "300px" }}>
+    <div style={{position:"absolute", width:"100vw", left:"0px"}}>
+      <UserCard id={userID}/>       
+    <div  style={{display:"flex", flexDirection:"column", width:"100vw", alignItems:"center"}}>
+      <SpielBanner />
+      <Card style={{ cursor:"pointer", marginTop:"6.2rem", width:"30vw", borderRadius:"0px", border:"2px solid black" }}>
         <Dropdown style={{postion: "relative", left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>
@@ -146,19 +157,24 @@ const handleFollow = () => {
           </Dropdown.Menu>
         </Dropdown>
         <div style = {{display:"flex"}}>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" onClick={takeToProfile} />
         <div>{followButton}</div>
         </div>
         <Card.Title>{poster}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{group}</Card.Subtitle>
         <Card.Text> {message} </Card.Text>
         <div>
+          
         <Button style={{background:"transparent", border: "none"}} onClick={ handleLike}><LikeButton/>{likeNumber}</Button>
-        <Button style={{background: "transparent", border:"none"}}> <CommentButton/> </Button> 
         </div>
       </Card>
+      < CommentForm poster={poster} spielID={idx.id} currentUser={currentUser} group={group}/>
+      <Card style={{width:"30vw", borderRadius:"0px", border:"2px solid black", display:"flex", alignItems:"center",justifyContent:"center" }}>
+        <Card.Title>Replies</Card.Title>
+      </Card>
       {commentArray?.map((c) => <Comment commenterName={c.name} datePosted={c.date} group={c.group} message={c.message} likes={c.likes} cOnC={c.comments} ogPostId={c.spielID} currentUser={currentUser}  />)}
-    </div></div>
+      </div>
+    </div>
   );
 }
 

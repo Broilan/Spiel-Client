@@ -4,13 +4,13 @@ html {
   min-width: 100%;
 }
 body {
-  background-color: rgb(231, 226, 226);
+  background-color: #F9FBFF ;
   margin-bottom: 60px; /* Margin bottom by footer height */
   overflow-x: hidden;
 }
 
 .container {
-  width: 100vw;
+  width: 100%;
 }
 
 .footer {

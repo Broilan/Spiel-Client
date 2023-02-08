@@ -51,8 +51,8 @@ function TabPanel(props) {
       setValue(newValue);
     };
   
-    return (
-      <Box sx={{ width: '100%' }}>
+    return (<div style={{display:"flex", marginLeft:"1.5rem", justifyContent:"center"}}>
+      <Box sx={{ width: "33vw" }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Account" {...a11yProps(0)} />
@@ -78,6 +78,7 @@ function TabPanel(props) {
         <SettingsChat />
         </TabPanel>
       </Box>
+      </div>
     );
   }
 

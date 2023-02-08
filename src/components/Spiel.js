@@ -60,7 +60,6 @@ const Spiel = (props) => {
              .then(response => {
                 const following = response.data.UserFollowing
     for (let i = 0; i < following?.length; i++) {
-      console.log(following[i].name, name, username)
       if (following[i].name == name) {
          setFollowButton(false)
          break
@@ -95,7 +94,7 @@ const Spiel = (props) => {
     console.log(e.target.value)
     const comment = e.target.value
     console.log("val", comment)
-    setPostButton(<Button variant="primary" onClick={(e)=> handleComment(spielID, group, comment)}>
+    setPostButton(<Button variant="primary" onClick={(e)=> handleComment(username, spielID, group, comment)}>
       Post Comment
     </Button>)
     console.log("new message", comment)
@@ -171,7 +170,7 @@ const Spiel = (props) => {
       }) 
   }
 
-  const handleComment = (spielID, group, comment) => {
+  const handleComment = (name, spielID, group, comment) => {
     const data = { name, group, comment
     }
     setAuthToken(localStorage.getItem('jwtToken'));
@@ -193,8 +192,16 @@ const Spiel = (props) => {
       setOpen(true)
       console.log(response)
 
-     console.log(' updated ===>', response );
+     console.log(' updated ===>', response ); 
+     const likeCommentOrFollow ='like'
+     const content = undefined
+     const data = {likeCommentOrFollow, content}
+    axios.post(`${REACT_APP_SERVER_URL}/notifications/${username}/${name}/${spielID}`, data)
      axios.put(`${REACT_APP_SERVER_URL}/users/${username}/likes/${spielID}`)
+
+     .then(response => {
+      console.log(response)
+     })
    })
    .catch(error => console.log('===> Error', error));
 }
@@ -207,6 +214,14 @@ const handleFollow = () => {
    console.log(' updated ===>', response );
  })
  .catch(error => console.log('===> Error', error));
+}
+
+const takeToProfile = () => {
+  if (username==name) {
+  history.push(`/profile`)
+  } else {
+    history.push(`users/${name}`)
+  }
 }
 
 
@@ -248,7 +263,7 @@ const handleFollow = () => {
         </Dropdown>
         <div style={{position:"relative", display:"flex", flexDirection:"column", top: "-25px"}}>
         <div style={{display: "flex",}}>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" style={{marginRight:"5px"}} />
+        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" onClick={takeToProfile} style={{marginRight:"5px"}} />
         {checkIfUserFollows(name)}
         {followButton}
         </div>

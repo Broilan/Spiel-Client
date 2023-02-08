@@ -12,6 +12,10 @@ import FollowButton from './FollowButton';
 import "./profile.css"
 import UnfollowButton from './UnfollowButton';
 import CommentButton from './CommentButton';
+import { useHistory } from 'react-router-dom';
+import ProfileBanner from './ProfileBanner';
+import { BsArrowUpCircleFill } from 'react-icons/bs';
+
 
 const Profile = (props) => {
     const [image, setImage] = useState(props.user.image); 
@@ -23,6 +27,7 @@ const Profile = (props) => {
    const [followers, setFollowers] = useState([])
    const [following, setFollowing] = useState([])
    const [profileFeed, setProfileFeed]= useState([])
+   const history = useHistory();
    
    const expirationTime = new Date(exp * 1000);
    const { REACT_APP_SERVER_URL } = process.env;
@@ -74,7 +79,7 @@ const handleFollow = (feedName) => {
                setProfileFeed(response.data.Spiels);
                setButtons(<div><Button style={{background:"transparent", border: "none"}} onClick={ handleLike}><LikeButton/>{likeNumber}</Button>
                        <Button style={{background: "transparent", border:"none"}}> <CommentButton/> </Button></div>)
-               setSelectedFeed('My Likes')
+               setSelectedFeed('Likes')
               }).catch((err) => { console.log('****************ERROR', err) });
     }
 
@@ -85,7 +90,7 @@ const handleFollow = (feedName) => {
        setProfileFeed(response.data.comment);
        setButtons(<div><Button style={{background:"transparent", border: "none"}} onClick={ handleLike}><LikeButton/>{likeNumber}</Button>
                        <Button style={{background: "transparent", border:"none"}}> <CommentButton/> </Button></div>)
-       setSelectedFeed('My Comments')
+       setSelectedFeed('Comments')
       }).catch((err) => { console.log('****************ERROR', err) });
 }
 
@@ -95,7 +100,7 @@ const followingFeed = () => {
     .then((response) => {
    setProfileFeed(response.data.UserFollowing);
    setSelectedFeed('Following')
-   setButtons(<Button style={{background:"transparent", border: "none"}} onClick={(e) => handleFollow(response.data.UserFollowers.name)}><UnfollowButton/></Button>)
+   setButtons(<Button style={{background:"transparent", border: "none", position:'relative', left:"80%", bottom:"5rem"}} onClick={(e) => handleFollow(response.data.UserFollowers.name)}><UnfollowButton/></Button>)
   }).catch((err) => { console.log('****************ERROR', err) });
 }
 
@@ -106,7 +111,7 @@ const followersFeed = () => {
     console.log(response)
    setProfileFeed(response.data.UserFollowers);
    setSelectedFeed('Followers')
-   setButtons(<Button style={{background:"transparent", border: "none"}} onClick={(e) => handleFollow(response.data.UserFollowers.name)}><FollowButton/></Button>)
+   setButtons(<Button style={{background:"transparent", border: "none", position:'relative', left:"80%", bottom:"5rem"}} onClick={(e) => handleFollow(response.data.UserFollowers.name)}><FollowButton/></Button>)
   }).catch((err) => { console.log('****************ERROR', err) });
 }
 
@@ -116,9 +121,11 @@ const followersFeed = () => {
         axios.get(`${REACT_APP_SERVER_URL}/users/${id}/spiels`)
          .then((response) => {
           setProfileFeed(response.data.Spiels);
-          setSelectedFeed('My Posts')
+          setSelectedFeed('Posts')
              console.log("response.data", response.data.Spiels);
              console.log("profile feed", profileFeed)
+             setButtons(<div><Button style={{background:"transparent", border: "none"}} onClick={ handleLike}><LikeButton/>{likeNumber}</Button>
+             <Button style={{background: "transparent", border:"none"}}> <CommentButton/> </Button></div>)
      
          }).catch((err) => { console.log('****************ERROR', err) });
 }
@@ -152,6 +159,20 @@ axios.get(`${REACT_APP_SERVER_URL}/users/${id}`, path )
   .catch(error => console.log('===> Error', error));
 }
 
+const groupFeed = (groupName) => {
+  setAuthToken(localStorage.getItem('jwtToken'));
+  axios.get(`${REACT_APP_SERVER_URL}/users/groups/${name}/groups`)
+   .then((response) => {
+      console.log(response)
+    setProfileFeed(response.data.groups);
+    setSelectedFeed(`groups`)
+    setButtons(<Button style={{position:"relative", left:"90%", background:"transparent", border: "none", color:"#8b45d6", fontSize:"1.5rem", margin:"none"}} onClick={(e) => history.push(`/group/group/${groupName}`)}><BsArrowUpCircleFill />{likeNumber}</Button>)
+       console.log("response.data", response.data.Spiels);
+
+
+   }).catch((err) => { console.log('****************ERROR', err) });
+}
+
 const handleLike = () => {
 
 }
@@ -163,32 +184,32 @@ const likeNumber = () => {
 
 
 
+
+
     
     return (
-      <div style={{position: "absolute", width: '100vw', left: "0px"}}>
-        <ProfileNav const followingFeed={followingFeed} followersFeed={followersFeed} regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} id={props.user.id}/>
-        <div className="home">
-            
-            <h1>{selectedFeed}</h1> 
-        {profileFeed?.map((idx) =>   <div >  <Card className="spielFeed"style={{position:"relative", border:"solid black"}}>
-      <Card.Body>
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        <Card.Title>{idx.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{idx.group}</Card.Subtitle>
-        <Card.Text>
-          {idx.message}
-        </Card.Text>
-        {buttons} 
+      <div style={{position: "absolute", width: '100vw', left: "0px", display:"flex", flexDirection:'column', alignItems:"center"}}>
+        <ProfileBanner name={name}/>
+      <ProfileNav selectedFeed={selectedFeed} followingFeed={followingFeed} groupFeed={groupFeed} followersFeed={followersFeed} name={name} regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} id={props.user.id}/>
+      <div className="home">
+         
+      {profileFeed?profileFeed.map((idx) =>   <div >  <Card className="spielFeed"style={{position:"relative", border:"1.8px solid black", borderRadius:'0px', width:"33vw", height:"15vh"}}>
+      <Card.Body >
+      <div style={{display:"flex", position:"relative", bottom:"8px"}}>
+      <Avatar style= {{marginRight:"7.5px", marginBottom:"5px"}}alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+      <Card.Title>{idx.name? idx.name : idx.groupName}</Card.Title>
+      </div>
+      <Card.Subtitle style={{position:"relative", bottom:"8px"}} className="mb-2 text-muted">{idx.group? idx.group : idx.users ? idx.users.length + " users": idx.bio }  </Card.Subtitle>
+      <Card.Text style={{position:"relative", bottom:"8px", marginBottom:"15px"}}>
+        {idx.following? <p style={{fontWeight:"bold"}}>following: {idx.following.length} <br></br>followers: {idx.followers.length}</p>: idx.message? idx.message : idx.spiels? idx.spiels.length + " spiels" : <p>nothing to see here yet!</p> } 
+      </Card.Text>
+      <div style={{position:"relative", bottom:"30px"}}>{buttons}</div>
       </Card.Body>
-    </Card></div>)}
-            <GroupsChart id={id} />
-                          <form action={`${REACT_APP_SERVER_URL}/users/${id}`} method="PUT" encType="multipart/form-data" >
-                            <label htmlFor="confirmPassword">Add Profile Picture</label>
-                            <input onChange={handleNewImage} type='file' name="image" />
-                        </form>
-                        {userCard}
-        </div>
-        </div>
+      </Card></div>) : <p>"nothing to see here yet!"</p>}
+      </div>
+      <GroupsChart id={id} />
+      {userCard}
+      </div>
         
     );
 

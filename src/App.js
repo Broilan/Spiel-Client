@@ -26,7 +26,9 @@ import NotificationsPage from './components/NotificationsPage'
 import Settings from './components/Settings';
 import SpielPost from './components/SpielPost';
 import likeButton from './components/LikeButton';
-import Testing from './components/testing';
+import OtherUserProfile from './components/OtherUserProfile';
+import SideBar from './components/SideBar';
+import CommentForm from './components/CommentForm';
 
 const { REACT_APP_SERVER_URL } = process.env;
 
@@ -80,8 +82,14 @@ function App(props) {
   return (
     
     <Router>
-    <div className="App">
-      <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} />
+      <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Roboto&family=Ubuntu:wght@300&display=swap');
+</style>
+    <div className="App" style={{fontFamily: "Montserrat"}}>
+      
+      {/* <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} /> */}
+      <SideBar isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/>
+      <UserCard isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/>
       <div className="container">
         <Switch>
           <Route path='/signup' component={Signup} />
@@ -99,8 +107,9 @@ function App(props) {
           <Route path="/Notifications" component={NotificationsPage} />
           <Route path="/likebutton" component={likeButton} />
           <Route path="/Settings" component={Settings} />
-          <Route path="/testing" component={Testing} />
+          <PrivateRoute exact path="/users/:name" component={OtherUserProfile} />
           <PrivateRoute exact path="/spiel/post/:id" component={SpielPost} currentUser={currentUser}/>
+
           
         </Switch>
       </div>
