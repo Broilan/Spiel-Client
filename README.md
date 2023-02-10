@@ -1,233 +1,77 @@
-# Setup
+Spiel is a full-stack social media application I designed in pursuit of a solid addition to my portfolio, as well as to develop my strengthen my understanding of the MERN stack and it's intracacies. 
+-----------------------------------
+CURRENT FEATURES:
+-------
+-Fully operational notifications for likes, comments, and follows.
 
-Due to this project using an older package not fully supported on node17+ we'll need to run one initial command before we run our npm install. 
+-Each user has one profile which only they can view, and they have one which is open to other users. The primary difference between the two is that only YOU can view your bookmarks.
 
-If you are on mac or linux, run the following command:
+-Users have the ability to like and comment on other posts, and the ability to follow one another.
 
-```
-export NODE_OPTIONS=--openssl-legacy-provider
-```
+-There is a groups section in which you are able to create, join, view, and post to groups.
 
-for windows users use one of these two commands:
+-Fully operational authentication system.
 
-command prompt: 
+-Via profiles, (whether it be yours or another users) you can view your/their likes, posts, comments, following, followers, and groups.
 
-```
-set NODE_OPTIONS=--openssl-legacy-provider
-```
+-User card component which follows you from page to page, this user card displays your bio, following, and followers. The user card is also the mechanism by which you would modify your user info, provided you would like too.
 
-powershell:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+HOMEPAGE
+---------
+![Homepage](https://user-images.githubusercontent.com/107972255/218222946-b93736e5-795c-488d-8d78-5a2d540b4bdb.JPG)
+GROUPS PAGE
+-------------
+![Group page](https://user-images.githubusercontent.com/107972255/218222995-ad673501-a70e-4039-a0f6-858bd22dab8f.JPG)
+GROUPS VIEW
+-----------------
+![Group view](https://user-images.githubusercontent.com/107972255/218223017-5296e1c3-d0dc-4f10-8109-5f405abf46cd.JPG)
+NOTIFICATIONS VIEW
+----------------------
+![notifications view](https://user-images.githubusercontent.com/107972255/218223021-19952833-eee6-4d0d-9a17-9dde0c7f791f.JPG)
+ANOTHER USERS PROFILE
+------------------------
+![otheruseer profile](https://user-images.githubusercontent.com/107972255/218223022-5c0c3795-83cf-40ee-b11d-7adec6443ec2.JPG)
+PERSONAL PROFILE
+-----------------------
+![profile view](https://user-images.githubusercontent.com/107972255/218223024-17912051-d3d1-4e5c-b0a5-2d8f0e049e71.JPG)
+SETTINGS PAGE
+-----------------------
+![settings page](https://user-images.githubusercontent.com/107972255/218223026-f14b4e23-f913-44a5-b755-90b614bba708.JPG)
+A POSTS PAGE
+----------------------
+![spiel post](https://user-images.githubusercontent.com/107972255/218223027-d3639c5e-5b76-476e-8d49-c5e69a30295f.JPG)
 
-```
-$env:NODE_OPTIONS = "--openssl-legacy-provider"
-```
 
-# MERN Authentication Frontend
+INITIAL WIREFRAMES
+------------------
+CHATS
+-----------------
+![spiel-chatlist-wireframe](https://user-images.githubusercontent.com/107972255/218221993-e2ee0dec-fb65-4668-b8e5-42c5344d7a00.png)
+SINGLE CHAT
+-----------------
+![spiel-chat-wireframe](https://user-images.githubusercontent.com/107972255/218221994-0fc9a6ef-b323-4836-b9ea-e2c626e7ac07.png)
+GROUP PAGE
+----------------
+![spiel-grouppage-wireframe](https://user-images.githubusercontent.com/107972255/218221995-a274f320-d69a-4d70-b938-dc2bd4c432b5.png)
+GROUPS PAGE
+----------------
+![spiel-groupspage-wireframe](https://user-images.githubusercontent.com/107972255/218221996-ce870c09-f685-48a9-96ca-8977763d0109.png)
+HOMEPAGE
+----------------
+![spiel-homepage-wireframe](https://user-images.githubusercontent.com/107972255/218221998-2eb05770-3838-4a60-a972-e82d1fd01588.png)
+NOTIFICATIONS
+----------------
+![Spiel-notifications-wireframe](https://user-images.githubusercontent.com/107972255/218221999-a80408a8-da36-497f-9067-04dc88f72dea.png)
+POST PAGE
+----------------
+![spiel-postpage-wireframe](https://user-images.githubusercontent.com/107972255/218222001-a9de3032-0894-4948-9ccb-3245586f6d09.png)
+PROFILE PAGE
+----------------
+![spiel-profilepage-wireframe](https://user-images.githubusercontent.com/107972255/218222003-3cea7c1c-98a2-446f-86f1-b60c19f7f2ab.png)
+SETTINGS PAGE
+----------------
+![spiel-settingspage-wireframe](https://user-images.githubusercontent.com/107972255/218222004-488ca591-eb81-4736-8f88-1d6805ad2cbb.png)
 
-| Components | Links to Code | Description |
-| --- | --- | --- |
-| `App`| [`App`](https://github.com/romebell/mern-auth-frontend#app-component) | The component that manages the entire app |
-| `Signup`| [`Signup`](https://github.com/romebell/mern-auth-frontend/blob/main/docs/signup.md) | Allow the user to signup |
-| `Login`| [`Login`](https://github.com/romebell/mern-auth-frontend/blob/main/docs/login.md) | Allows the user to login to the app |
-| `Navbar`| [`Navbar`](https://github.com/romebell/mern-auth-frontend/blob/main/docs/navbar.md) | Make `App` class component |
-| `Profile`| [`Profile`](#) | A component that displays the user profile information |
-| `setAuthToken`| [`setAuthToken`](https://github.com/romebell/mern-auth-frontend/blob/main/docs/setAuthToken.md) | A utility function that adds a token to the `Authentication` header to manage current user |
-| `About`| [`About`](https://github.com/romebell/mern-auth-frontend/blob/main/docs/other-components.md#about) | A component that decribes the app |
-| `Footer`| [`Footer`](https://github.com/romebell/mern-auth-frontend/blob/main/docs/other-components.md#footer) | A footer that goes on each component |
-| `Welcome`| [`Welcome`](https://github.com/romebell/mern-auth-frontend/blob/main/docs/other-components.md#welcome) | A welcome page for the user |
-
-### `App Component`
-
-### Imports for `App`
-
-```jsx
-// Imports
-import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
-import setAuthToken from './utils/setAuthToken';
-
-// CSS
-import './App.css';
-
-// Components
-import Signup from './components/Signup';
-import About from './components/About';
-import Footer from './components/Footer';
-import Login from './components/Login';
-import Navbar from './components/Navbar';
-import Profile from './components/Profile';
-import Welcome from './components/Welcome';
-```
-
-### `useState` inside `App`
-
-```jsx
-function App() {
-  // Set state values
-  const [currentUser, setCurrentUser] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-}
-```
-
-### `PrivateRoute`
-
-```jsx
-const PrivateRoute = ({ component: Component, ...rest}) => {
-  let token = localStorage.getItem('jwtToken');
-  console.log('===> Hitting a Private Route');
-  return <Route {...rest} render={(props) => {
-    return token ? <Component {...rest} {...props} /> : <Redirect to="/login"/>
-  }} />
-}
-```
-
-### `useEffect` inside `App`
-
-```jsx
-useEffect(() => {
-    let token;
-
-    if (!localStorage.getItem('jwtToken')) {
-      setIsAuthenticated(false);
-      console.log('====> Authenticated is now FALSE');
-    } else {
-      token = jwt_decode(localStorage.getItem('jwtToken'));
-      setAuthToken(localStorage.getItem('jwtToken'));
-      setCurrentUser(token);
-    }
-  }, []);
-```
-
-### `nowCurrentUser`
-
-```jsx
-const nowCurrentUser = (userData) => {
-    console.log('===> nowCurrent is here.');
-    setCurrentUser(userData);
-    setIsAuthenticated(true);
-}
-```
-
-### `handleLogout`
-
-```jsx
-const handleLogout = () => {
-    if (localStorage.getItem('jwtToken')) {
-        // remove token for localStorage
-        localStorage.removeItem('jwtToken');
-        setCurrentUser(null);
-        setIsAuthenticated(false);
-    }
-}
-```
-
-### `return` of `App`
-
-```jsx
-return (
-<div className="App">
-    <h1>MERN Authentication</h1>
-    <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} />
-    <div className="container mt-5">
-        <Switch>
-            <Route path='/signup' component={Signup} />
-            <Route 
-            path="/login"
-            render={(props) => <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser}/>}
-            />
-            <PrivateRoute path="/profile" component={Profile} user={currentUser} handleLogout={handleLogout} />
-            <Route exact path="/" component={Welcome} />
-            <Route path="/about" component={About} />
-        </Switch>
-    </div>
-    <Footer />
-</div>
-);
-```
-
-### Finished
-
-```jsx
-// Imports
-import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
-import setAuthToken from './utils/setAuthToken';
-
-// CSS
-import './App.css';
-
-// Components
-import Signup from './components/Signup';
-import About from './components/About';
-import Footer from './components/Footer';
-import Login from './components/Login';
-import Navbar from './components/Navbar';
-import Profile from './components/Profile';
-import Welcome from './components/Welcome';
-
-const PrivateRoute = ({ component: Component, ...rest}) => {
-  let token = localStorage.getItem('jwtToken');
-  console.log('===> Hitting a Private Route');
-  return <Route {...rest} render={(props) => {
-    return token ? <Component {...rest} {...props} /> : <Redirect to="/login"/>
-  }} />
-}
-
-function App() {
-  // Set state values
-  const [currentUser, setCurrentUser] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
- 
-  useEffect(() => {
-    let token;
-
-    if (!localStorage.getItem('jwtToken')) {
-      setIsAuthenticated(false);
-      console.log('====> Authenticated is now FALSE');
-    } else {
-      token = jwt_decode(localStorage.getItem('jwtToken'));
-      setAuthToken(localStorage.getItem('jwtToken'));
-      setCurrentUser(token);
-    }
-  }, []);
-
-  const nowCurrentUser = (userData) => {
-    console.log('===> nowCurrent is here.');
-    setCurrentUser(userData);
-    setIsAuthenticated(true);
-  }
-
-  const handleLogout = () => {
-    if (localStorage.getItem('jwtToken')) {
-      // remove token for localStorage
-      localStorage.removeItem('jwtToken');
-      setCurrentUser(null);
-      setIsAuthenticated(false);
-    }
-  }
-
-  return (
-    <div className="App">
-      <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} />
-      <div className="container mt-5">
-        <Switch>
-          <Route path='/signup' component={Signup} />
-          <Route 
-            path="/login"
-            render={(props) => <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser}/>}
-          />
-          <PrivateRoute path="/profile" component={Profile} user={currentUser} handleLogout={handleLogout} />
-          <Route exact path="/" component={Welcome} />
-          <Route path="/about" component={About} />
-        </Switch>
-      </div>
-      <Footer />
-    </div>
-  );
-}
-
-export default App;
-```
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+All in all, Spiel is a fully operational full-stack social media beyond a few minor things I'd like to touch up on in the future. I'm very happy to call this one of my first portfolio projects, and I'll certainly return to it's code to make it even better in the future.
