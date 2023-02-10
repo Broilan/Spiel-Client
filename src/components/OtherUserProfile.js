@@ -162,7 +162,7 @@ const groupFeed = (groupName) => {
   }
 
     return (
-        <div style={{position: "absolute", width: '100vw', left: "0px", display: "flex", flexDirection: "column", alignItems:"center"}}>
+        <div style={{position: "absolute", width: '100vw', left: "2rem", display: "flex", flexDirection: "column", alignItems:"center"}}>
             <ProfileBanner name={name}/>
         <ProfileNav currentFeed={currentFeed} selectedFeed={selectedFeed} followingFeed={followingFeed} followersFeed={followersFeed} name={name} regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} groupFeed={groupFeed} id={id}/>
         <div className="home">

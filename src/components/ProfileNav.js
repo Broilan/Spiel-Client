@@ -41,7 +41,7 @@ function ProfileNav(props) {
             <Nav.Link onClick={followersFeed}>followers</Nav.Link>
             <Nav.Link onClick={followingFeed}>following</Nav.Link>
             <Nav.Link onClick={groupFeed}>groups</Nav.Link>
-            <Nav.Link onClick={bookmarkFeed}>bookmarks</Nav.Link>
+            {window.location.pathname=="/profile"? <Nav.Link onClick={bookmarkFeed}>bookmarks</Nav.Link> : null}
           </Nav>
         </Container>
       </Navbar>
