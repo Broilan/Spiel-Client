@@ -13,6 +13,7 @@ function ProfileNav(props) {
     const followersFeed = props.followersFeed
     const followingFeed = props.followingFeed
     const groupFeed = props.groupFeed
+    const bookmarkFeed= props.bookmarkFeed
     const name = props.name
     const selectedFeed = props.selectedFeed
 
@@ -40,6 +41,7 @@ function ProfileNav(props) {
             <Nav.Link onClick={followersFeed}>followers</Nav.Link>
             <Nav.Link onClick={followingFeed}>following</Nav.Link>
             <Nav.Link onClick={groupFeed}>groups</Nav.Link>
+            <Nav.Link onClick={bookmarkFeed}>bookmarks</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

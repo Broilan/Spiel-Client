@@ -1,5 +1,6 @@
 // Imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { Redirect } from 'react-router-dom';
@@ -18,6 +19,10 @@ const Login = (props) => {
     const handlePassword = (e) => {
         setPassword(e.target.value);
     }
+    const history = useHistory();
+    function switchPage() {
+        history.push('/signup')
+    } 
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -58,6 +63,7 @@ const Login = (props) => {
                             <input type="password" name="password" value={password} onChange={handlePassword} className="form-control" />
                         </div>
                         <button type="submit" className="btn btn-primary float-right">Submit</button>
+                        <input onClick={switchPage} type="button" className="btn btn-primary float-right" value="Signup"/>            
                     </form>
                 </div>
             </div>

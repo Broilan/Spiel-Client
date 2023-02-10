@@ -16,6 +16,7 @@ import UnfollowButton from './UnfollowButton';
 import ProfileBanner from './ProfileBanner';
 import CommentButton from './CommentButton';
 import { BsArrowUpCircleFill } from 'react-icons/bs';
+import { display } from '@mui/system';
 
 
 
@@ -161,12 +162,12 @@ const groupFeed = (groupName) => {
   }
 
     return (
-        <div style={{position: "absolute", width: '100vw', left: "0px"}}>
+        <div style={{position: "absolute", width: '100vw', left: "0px", display: "flex", flexDirection: "column", alignItems:"center"}}>
             <ProfileBanner name={name}/>
         <ProfileNav currentFeed={currentFeed} selectedFeed={selectedFeed} followingFeed={followingFeed} followersFeed={followersFeed} name={name} regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} groupFeed={groupFeed} id={id}/>
         <div className="home">
             
-        {currentFeed?currentFeed.map((idx) =>   <div >  <Card className="spielFeed"style={{position:"relative", border:"1.8px solid black", borderRadius:'0px', width:"33vw", marginLeft:"3.7rem", top:"-2.3rem", height:"15vh"}}>
+        {currentFeed?currentFeed.map((idx) =>   <div >  <Card className="spielFeed"style={{position:"relative", border:"1.8px solid black", borderRadius:'0px', width:"33vw", height:"15vh"}}>
       <Card.Body >
         <div style={{display:"flex", position:"relative", bottom:"8px"}}>
       <Avatar style= {{marginRight:"7.5px", marginBottom:"5px"}}alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

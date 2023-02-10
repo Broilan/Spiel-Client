@@ -244,8 +244,9 @@ const GroupPage = (props) => {
       </Collapse>
     </Box>
     
-    <GroupBanner  group={group}/>
-                <div style ={{display:"flex", flexDirection:"column", justifyContent:"center", marginTop:"6.5rem"}}>
+    
+                <div style ={{display:"flex", flexDirection:"column", alignItems:"center", marginTop:"6.5rem"}}>
+                  <GroupBanner  group={group}/>
                     <div className="card card-body" style={{borderRadius: "0px", border:"2px solid black", width: '29vw', justifySelf:"center", alignSelf:"center"}}>
                     
                         <form >

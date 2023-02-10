@@ -84,12 +84,26 @@ const SideBar = (props) => {
     }, [])
 
     useEffect(() => {
-        axios.get(`${REACT_APP_SERVER_URL}/users/notifications/${name}`)
+        axios.get(`${REACT_APP_SERVER_URL}/notifications/${name}`)
         .then(response=> {
           console.log(response)
-          setNotifArray(response.data.response)
+          console.log("notif array", response)
+          setNotifArray(response.data.foundNotifs)
         })
       }, [show])
+
+      // const checkNotifType = (n) =>{
+      //   if (n.likeCommentOrFollow =='like') {
+      //     console.log("true 3")
+      //     return "liked your post!"
+      //   } else if(n.likeCommentOrFollow =='comment') {
+      //     console.log("true 2 ")
+      //     return "commented on your post!"
+      //   }else{
+      //     console.log("true 1")
+      //     return "followed you!"
+      //   }
+      // }
 
     return (
         <div style={{position:"fixed", left:"16.5%", top:"0%", zIndex:"100"}}>
@@ -107,10 +121,10 @@ const SideBar = (props) => {
                         <div className='navdivs'><NavLink  className="navlink"  to="/group">{picG}Groups</NavLink></div>
                         <div className='navdivs'><NavLink className="navlink" onClick={handleShow} to="/">{picB}Notifications</NavLink></div>
                         <div className='navdivs'><NavLink className="navlink"  to="/">{picC}Messages</NavLink></div>
-                        <div className='navdivs'><NavLink className="navlink"  to="/group">{picD}Bookmarks</NavLink></div>
+                        <div className='navdivs'><NavLink className="navlink"  to="/profile">{picD}Bookmarks</NavLink></div>
                         <div className='navdivs'><NavLink className="navlink"  to="/profile">{picE}Profile</NavLink></div>
                         <div className='navdivs'><NavLink className="navlink"  to="/settings">{picF}Settings</NavLink></div>
-                        </div><div className="logout"><NavLink style={{color:"white", textDecoration:"none", marginLeft:"27%", fontSize:"1.2rem"}} onClick={props.handleLogout}  to="/logout">logout</NavLink></div>
+                        </div><div className="logout"><NavLink style={{color:"white", textDecoration:"none", marginLeft:"27%", fontSize:"1.2rem"}} onClick={props.handleLogout}  to="/login">logout</NavLink></div>
                     </>
                     : 
                     <>
@@ -121,7 +135,7 @@ const SideBar = (props) => {
                   
                 }
                         <React.Fragment>
-            <ListItem style={{ marginTop:"20vh"}}>
+            <ListItem style={{ marginTop:"15vh"}}>
                 <ListItemAvatar>
                   <Avatar alt="Profile Picture" src={person} />
                 </ListItemAvatar>
@@ -141,21 +155,22 @@ const SideBar = (props) => {
         <Offcanvas.Body>
 
         <React.Fragment>
-        <List sx={{ mb: 2 }}>         
+        <List sx={{ mb: 2 }}>    
+                <ListSubheader sx={{ bgcolor: 'white' }}>
+                  Today
+                </ListSubheader>       
 
           {notifArray?.map((n) => 
    
             <React.Fragment>
-                <ListSubheader sx={{ bgcolor: 'white' }}>
-                  Today
-                </ListSubheader>
+ 
 
 
-              <ListItem style={{border:"1px solid gray"}} onClick={handleModalOpen}>
+              <ListItem style={{border:"1px solid gray", marginBottom:"2px"}} onClick={handleModalOpen} button>
                 <ListItemAvatar>
                   <Avatar alt="Profile Picture" src={person} />
                 </ListItemAvatar>
-                <ListItemText primary={n.from} secondary={n.likeCommentOrFollow == "like"? "liked your post" : null} />
+                <ListItemText primary={n.from} secondary={n.content} />
               </ListItem>
             </React.Fragment>
           )}

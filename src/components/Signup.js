@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 const { REACT_APP_SERVER_URL } = process.env;
 
 
@@ -17,6 +18,11 @@ const Signup = () => {
     const handleName = (e) => {
         setName(e.target.value);
     }
+    const history = useHistory();
+    function switchPage() {
+        history.push('/login')
+    } 
+           
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -73,7 +79,10 @@ const Signup = () => {
                             <label htmlFor="confirmPassword">Confirm Password</label>
                             <input type="password" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPassword} className="form-control"/>
                         </div>
-                        <input onClick={handleSubmit} type="submit" className="btn btn-primary float-right" value="Submit"/>                    </form>
+                        <input onClick={handleSubmit} type="submit" className="btn btn-primary float-right" value="Submit"/> 
+                        <input onClick={switchPage} type="button" className="btn btn-primary float-right" value="Login"/>                   
+                        </form>
+                         
 
                 </div>
             </div>

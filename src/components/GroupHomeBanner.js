@@ -43,7 +43,7 @@ const GroupHomeBanner = (props) => {
     }
 
     return (
-            <div>
+        <div style={{position: "fixed", backgroundColor: "white", zIndex: "1", opacity: "90%", width: "30vw", border: "2px solid black", top:"0px"}}>
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         <Modal.Title>New Group</Modal.Title>
@@ -70,7 +70,7 @@ const GroupHomeBanner = (props) => {
         </Modal>
 
 
-        <div style={{position: "fixed", backgroundColor: "white", zIndex: "1", opacity: "90%", width: "30vw", height: "10.5vh", border: "2px solid black", top:"0px"}}>
+        <div>
             <p style ={{fontWeight:"bold", fontSize: "25px", marginLeft:"10px"}}>Groups</p>
             <div style={{display:"flex", flexDirection:"row", justifyContent: "center"}}>
             <button class="childx" style={{ width: "50rem", height: "36px", fontSize: "20px", fontWeight: "bold", cursor: "pointer"}}>for you</button>

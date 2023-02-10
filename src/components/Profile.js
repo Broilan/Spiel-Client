@@ -83,6 +83,21 @@ const handleFollow = (feedName) => {
               }).catch((err) => { console.log('****************ERROR', err) });
     }
 
+    const  bookmarkFeed =  () => {
+      setAuthToken(localStorage.getItem('jwtToken'));
+     axios.get(`${REACT_APP_SERVER_URL}/users/bookmarks/${id}`)
+     .then(response => {
+      const sArray = []
+      response.data.response.map((r) => sArray.push(r.spiel))
+       setProfileFeed(sArray);
+       console.log(profileFeed)
+     })
+             
+           setButtons(<div><Button style={{background:"transparent", border: "none"}} onClick={ handleLike}><LikeButton/>{likeNumber}</Button>
+               <Button style={{background: "transparent", border:"none"}}> <CommentButton/> </Button></div>)
+       setSelectedFeed('Bookmarks')
+}
+
     const commentFeed = () => {
       setAuthToken(localStorage.getItem('jwtToken'));
      axios.get(`${REACT_APP_SERVER_URL}/comment/${name}`)
@@ -188,9 +203,9 @@ const likeNumber = () => {
 
     
     return (
-      <div style={{position: "absolute", width: '100vw', left: "0px", display:"flex", flexDirection:'column', alignItems:"center"}}>
+      <div style={{position: "absolute", width: '100vw', left: "1.5rem", display:"flex", flexDirection:'column', alignItems:"center"}}>
         <ProfileBanner name={name}/>
-      <ProfileNav selectedFeed={selectedFeed} followingFeed={followingFeed} groupFeed={groupFeed} followersFeed={followersFeed} name={name} regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} id={props.user.id}/>
+      <ProfileNav bookmarkFeed={bookmarkFeed} selectedFeed={selectedFeed} followingFeed={followingFeed} groupFeed={groupFeed} followersFeed={followersFeed} name={name} regularFeed={regularFeed} commentFeed={commentFeed} likeFeed={likeFeed} id={props.user.id}/>
       <div className="home">
          
       {profileFeed?profileFeed.map((idx) =>   <div >  <Card className="spielFeed"style={{position:"relative", border:"1.8px solid black", borderRadius:'0px', width:"33vw", height:"15vh"}}>

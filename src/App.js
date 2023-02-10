@@ -76,6 +76,7 @@ function App(props) {
       localStorage.removeItem('jwtToken');
       setCurrentUser(null);
       setIsAuthenticated(false);
+      <Redirect to="/"/>
     }
   }
 
@@ -88,13 +89,13 @@ function App(props) {
     <div className="App" style={{fontFamily: "Montserrat"}}>
       
       {/* <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} /> */}
-      <SideBar isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/>
-      <UserCard isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/>
+      {isAuthenticated? <SideBar isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/> : null}
+      {isAuthenticated? <UserCard isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/> : null}
       <div className="container">
         <Switch>
           <Route path='/signup' component={Signup} />
           <Route 
-            path="/login"
+           path="/login"
             render={(props) => <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser}/>}
           />
           <PrivateRoute path="/profile" component={Profile} user={currentUser}  handleLogout={handleLogout} />
@@ -104,6 +105,7 @@ function App(props) {
           <PrivateRoute exact path="/group/:idx" user={currentUser} component={GroupPage} />
           <PrivateRoute exact path="/spiel" component={Spiel} user={currentUser} />
           <Route path="/Chats" component={ChatsPage} />
+          
           <Route path="/Notifications" component={NotificationsPage} />
           <Route path="/likebutton" component={likeButton} />
           <Route path="/Settings" component={Settings} />

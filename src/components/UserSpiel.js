@@ -23,9 +23,6 @@ const UserSpiel = (props) => {
 
 
     const [message, setMessage] = useState('');
-    const [spielID, setSpielID] = useState('');
-    const [followers, setFollowers] = useState([])
-    const [following, setFollowing] = useState([])
     const [group, setGroup] = useState('');
     const [feed, setFeed] = useState(["nothing to see here yet!"]);
     const history=useHistory();
@@ -202,7 +199,7 @@ const UserSpiel = (props) => {
                     </div>
                 </div>
             </div>
-            {feed?.map((f, idx) =>  <Spiel handleDelete={handleDelete} username={name} spielID={f._id} key={idx} name={f.name} message={f.message} group={f.group} />, console.log(feed))}
+            {feed?.map((f, idx) =>  <Spiel handleDelete={handleDelete} id={id} username={name} spielID={f._id} key={idx} name={f.name} message={f.message} group={f.group} />, console.log(feed))}
         </div>
     );
 }

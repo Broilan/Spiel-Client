@@ -19,6 +19,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import FollowButton from './FollowButton';
+import { BsBookmark } from 'react-icons/bs';
+import { BsBookmarkFill } from 'react-icons/bs';
+
 
 const { REACT_APP_SERVER_URL } = process.env;
 const Spiel = (props) => {
@@ -31,6 +34,7 @@ const Spiel = (props) => {
   const [modalType, setModalType] = useState('')
  const [followNum, setFollowNum] = useState(0)
   const name = props.name
+  const userID = props.id
   const username=props.username
   const [message, setMessage] = useState(props.message);
   const [group, setGroup] = useState(props.group);
@@ -38,6 +42,7 @@ const Spiel = (props) => {
   const [which, setWhich] = useState('')
   const [postButton, setPostButton] = useState('')
   const [followButton, setFollowButton] = useState()
+  const [bookmark, setBookmark] = useState()
 
   const [formGroup, setFormGroup] = useState('')
   const [editOrPost, setEditOrPost] = useState()
@@ -74,9 +79,48 @@ const Spiel = (props) => {
   })
   }
 
-  useEffect(() => [
+  function checkIfUserBookmarked(){
+    axios.get(`${REACT_APP_SERVER_URL}/users/bookmarks/${userID}`)
+             .then(response => {
+              const bookmarkArray = response.data.response
+              console.log("bookmark array", bookmarkArray)
+              for (let i = 0; i < bookmarkArray?.length; i++) {
+                console.log(bookmarkArray[i].spiel.spielID, spielID)
+                if (bookmarkArray[i].spiel.spielID == spielID ) {
+                  console.log("match")
+                   setBookmark(<button type="button" onClick={undoBookmark}style={{border:"none", backgroundColor:"white"}}><BsBookmarkFill style={{zIndex:"100",fontSize:"20px", position:"relative", left:"47%"}}/></button>)
+                   break
+                 } else {
+                 console.log("names don't match")
+                }
+              }
+  })
+  }
+
+  useEffect(() => {
+    checkIfUserBookmarked()
+    setBookmark(<button type="button" onClick={handleBookmark}style={{border:"none", backgroundColor:"white"}}><BsBookmark style={{zIndex:"100",fontSize:"20px", position:"relative", left:"47%"}}/></button>)
   setFollowButton(<Button style={{background:"transparent", border: "none"}} onClick={handleFollow}><FollowButton/></Button>)
-  ], [])
+}, [])
+
+function handleBookmark() {
+  const data = {name, group, message, spielID}
+  setBookmark(<button type="button" onClick={undoBookmark}style={{border:"none", backgroundColor:"white"}}><BsBookmarkFill style={{zIndex:"100",fontSize:"20px", position:"relative", left:"47%"}}/></button>)
+  axios.put(`${REACT_APP_SERVER_URL}/users/bookmark/${userID}/${spielID}`, data)
+  .then(response => {
+    console.log(response)
+  })
+  
+}
+
+function undoBookmark() {
+    setBookmark(<button type="button" onClick={handleBookmark}style={{border:"none", backgroundColor:"white"}}><BsBookmark style={{zIndex:"100",fontSize:"20px", position:"relative", left:"47%"}}/></button>)
+    axios.put(`${REACT_APP_SERVER_URL}/users/remove/bookmark/${userID}/${spielID}`)
+    axios.delete(`${REACT_APP_SERVER_URL}/users/bookmark/remove/${userID}/${spielID}`)
+    .then(response => {
+      console.log("delete respone", response)
+    })
+}
 
 
   function postredir() {
@@ -94,7 +138,7 @@ const Spiel = (props) => {
     console.log(e.target.value)
     const comment = e.target.value
     console.log("val", comment)
-    setPostButton(<Button variant="primary" onClick={(e)=> handleComment(username, spielID, group, comment)}>
+    setPostButton(<Button variant="primary" onClick={(e)=> handleComment(username, name, spielID, group, comment)}>
       Post Comment
     </Button>)
     console.log("new message", comment)
@@ -170,7 +214,7 @@ const Spiel = (props) => {
       }) 
   }
 
-  const handleComment = (name, spielID, group, comment) => {
+  const handleComment = (name, other, spielID, group, comment) => {
     const data = { name, group, comment
     }
     setAuthToken(localStorage.getItem('jwtToken'));
@@ -181,6 +225,10 @@ const Spiel = (props) => {
       console.log(response)
      axios.put(`${REACT_APP_SERVER_URL}/comment/${spielID}/comment`)
      console.log(' updated ===>', response );
+     const likeCommentOrFollow ='comment'
+     const content = "commented on your post!"
+     const data = {likeCommentOrFollow, content}
+     axios.post(`${REACT_APP_SERVER_URL}/notifications/${name}/${other}/${spielID}`, data)
    })
    .catch(error => console.log('===> Error', error));
 }
@@ -194,7 +242,7 @@ const Spiel = (props) => {
 
      console.log(' updated ===>', response ); 
      const likeCommentOrFollow ='like'
-     const content = undefined
+     const content = "liked your post!"
      const data = {likeCommentOrFollow, content}
     axios.post(`${REACT_APP_SERVER_URL}/notifications/${username}/${name}/${spielID}`, data)
      axios.put(`${REACT_APP_SERVER_URL}/users/${username}/likes/${spielID}`)
@@ -212,6 +260,10 @@ const handleFollow = () => {
     setOpen(true)
     console.log(response)
    console.log(' updated ===>', response );
+   const likeCommentOrFollow ='follow'
+   const content = `followed you!`
+   const data = {likeCommentOrFollow, content}
+   axios.post(`${REACT_APP_SERVER_URL}/notifications/${username}/${name}/${spielID}`, data)
  })
  .catch(error => console.log('===> Error', error));
 }
@@ -251,6 +303,7 @@ const takeToProfile = () => {
     </Box>
       
       <Card style={{ cursor:"pointer", position: "relative", maxHeight: "500px", borderRadius: "0px", paddingLeft: "10px", border:"2px solid black" }}>
+        <div style={{display:"flex", flexDirection:"column", justifyContent:"space-evenly"}}>
         <Dropdown style={{ left: "93%"}}>
           <Dropdown.Toggle variant="failure" id="dropdown-basic">
           </Dropdown.Toggle>
@@ -261,6 +314,8 @@ const takeToProfile = () => {
           {userCheck()}
           </Dropdown.Menu>
         </Dropdown>
+        {bookmark}
+        </div>
         <div style={{position:"relative", display:"flex", flexDirection:"column", top: "-25px"}}>
         <div style={{display: "flex",}}>
         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" onClick={takeToProfile} style={{marginRight:"5px"}} />

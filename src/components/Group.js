@@ -37,8 +37,8 @@ const [groupFeed, setGroupFeed]= useState([])
               .catch(error => console.log('===> Error', error));
           }
     return (
-        <div>
-<GroupHomeBanner/>
+        <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+
 
             
                 <Dropdown style={{position:"absolute", right:"30vw"}}>
@@ -53,8 +53,8 @@ const [groupFeed, setGroupFeed]= useState([])
       </Dropdown.Menu>
     </Dropdown>
     <UserCard />
-
-    <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", marginTop:"6.4rem" }}>
+<GroupHomeBanner/>
+    <div style={{display:"flex", flexDirection:"column", alignItems:"center", marginTop:"6.4rem" }}>
     {groupFeed.map((gf, idx) => <GroupCard  groupFeed={groupFeed} groupDelete={groupDelete} id={gf._id} key={idx} users={gf.users} group={gf.groupName} description={gf.description} />)} 
     </div>  
         </div>
