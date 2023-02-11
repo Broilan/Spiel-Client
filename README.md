@@ -3,7 +3,7 @@ BACKEND: https://github.com/TannerEsch/Spiel-backend/blob/main/README.md
 TECHNOLOGIES
 ---------------
 MongoDB, Express, Node, React, Bootstrap, Material UI, React Icons, Multer, Axios, jwt, Bcrypt, & Passport
--
+
 CURRENT FEATURES:
 -------
 -Fully operational notifications for likes, comments, and follows.
