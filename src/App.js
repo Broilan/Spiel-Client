@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { Route, Link, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import axios from 'axios';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,7 +13,6 @@ import './App.css';
 // Components
 import Signup from './components/Signup';
 import Login from './components/Login';
-import Navbar from './components/Navbar';
 import Profile from './components/Profile';
 import Home from './components/Home';
 import Group from "./components/Group"
@@ -28,9 +26,7 @@ import SpielPost from './components/SpielPost';
 import likeButton from './components/LikeButton';
 import OtherUserProfile from './components/OtherUserProfile';
 import SideBar from './components/SideBar';
-import CommentForm from './components/CommentForm';
 
-const { REACT_APP_SERVER_URL } = process.env;
 
 const PrivateRoute = ({ component: Component, ...rest}) => {
   let token = localStorage.getItem('jwtToken');
@@ -88,7 +84,6 @@ function App(props) {
 </style>
     <div className="App" style={{fontFamily: "Montserrat"}}>
       
-      {/* <Navbar handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} /> */}
       {isAuthenticated? <SideBar isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/> : null}
       {isAuthenticated? <UserCard isAuth={isAuthenticated} user={currentUser}  handleLogout={handleLogout}/> : null}
       <div className="container">

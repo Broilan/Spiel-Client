@@ -11,32 +11,9 @@ import Divider from '@mui/material/Divider';
 import { NavLink, Link, useHistory } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import Button from 'react-bootstrap/Button';
-
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Card from 'react-bootstrap/Card';
-import { styled } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
-import Fab from '@mui/material/Fab';
 import ListSubheader from '@mui/material/ListSubheader';
-import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import Drawer from '@mui/material/Drawer';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import axios from 'axios';
-import "./Navbar.css"
+
 const { REACT_APP_SERVER_URL } = process.env;
 
 
