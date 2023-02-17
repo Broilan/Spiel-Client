@@ -5,30 +5,21 @@ import Brand from './Brand';
 import './sidebar.css'
 
 import { AiOutlineHome } from 'react-icons/ai';
-import { AiTwotoneHome } from 'react-icons/ai';
 
 import { IoIosNotificationsOutline } from 'react-icons/io';
-import { IoIosNotifications } from 'react-icons/io';
 
 import { AiOutlineMail } from 'react-icons/ai';
-import { AiTwotoneMail } from 'react-icons/ai';
 
 import { BsBookmark } from 'react-icons/bs';
-import { BsFillBookmarkFill } from 'react-icons/bs';
 
 import { MdOutlinePersonOutline } from 'react-icons/md';
-import { MdPerson } from 'react-icons/md';
 
 import { AiOutlineSetting } from 'react-icons/ai';
-import { AiTwotoneSetting } from 'react-icons/ai';
 
-import { IoIosLogOut } from 'react-icons/io';
 
 import { BsPersonPlus } from 'react-icons/bs';
-import { BsPersonPlusFill } from 'react-icons/bs';
 
 import { HiOutlineUserGroup } from 'react-icons/hi';
-import { HiUserGroup } from 'react-icons/hi';
 
     import Offcanvas from 'react-bootstrap/Offcanvas';
     import List from '@mui/material/List';
@@ -53,12 +44,11 @@ const SideBar = (props) => {
     const { REACT_APP_SERVER_URL } = process.env;
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const { handleLogout, user } = props;
+    const { user } = props;
     const [open, setOpen] = React.useState(false);
     const { name, id, email, exp } = user;
     const [show, setShow] = useState(false);
     const handleModalOpen = () => setOpen(true);
-    const handleModalClose = () => setOpen(false);
     const [notifArray, setNotifArray] = useState()
 
     const [picA, setPicA] = useState()
@@ -91,19 +81,6 @@ const SideBar = (props) => {
           setNotifArray(response.data.foundNotifs)
         })
       }, [show])
-
-      // const checkNotifType = (n) =>{
-      //   if (n.likeCommentOrFollow =='like') {
-      //     console.log("true 3")
-      //     return "liked your post!"
-      //   } else if(n.likeCommentOrFollow =='comment') {
-      //     console.log("true 2 ")
-      //     return "commented on your post!"
-      //   }else{
-      //     console.log("true 1")
-      //     return "followed you!"
-      //   }
-      // }
 
     return (
         <div style={{position:"fixed", left:"16.5%", top:"0%", zIndex:"100"}}>

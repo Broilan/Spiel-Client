@@ -8,16 +8,10 @@ import Button from 'react-bootstrap/Button';
 
 
 const Comment = (props) => {
-  const poster = props.poster
   const commenterName = props.commenterName
   const currentUser = props.currentUser
-  const datePosted = props.datePosted
   const group = props.group
   const message = props.message
-  const likes = props.likes
-  const cOnC = props.cOnC
-  const comments = props.comments
-  const ogPostId = props.ogPostId
 
   const history = useHistory()
 

@@ -3,20 +3,16 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-import UserCard from './UserCard';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
-import GroupsChart from './GroupsChart';
 import ProfileNav from './ProfileNav';
 import LikeButton from './LikeButton';
 import Avatar from '@mui/material/Avatar';
 import FollowButton from './FollowButton';
 import "./profile.css"
-import UnfollowButton from './UnfollowButton';
 import ProfileBanner from './ProfileBanner';
 import CommentButton from './CommentButton';
 import { BsArrowUpCircleFill } from 'react-icons/bs';
-import { display } from '@mui/system';
 
 
 

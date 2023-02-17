@@ -3,11 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
 import LikeButton from './LikeButton';
-import CommentButton from './CommentButton';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import Avatar from '@mui/material/Avatar';
@@ -19,11 +16,6 @@ import UserCard from './UserCard';
 const { REACT_APP_SERVER_URL } = process.env;
 
 
-
-
-// import Comment from "./Comment";
-
-
 const Spiel = (props) => {
 
   const currentUser = props.currentUser.name
@@ -33,11 +25,7 @@ const Spiel = (props) => {
   const [show, setShow] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [likes, setLikes] = useState();
-  const [newUser, setNewUser] = useState('');
-  const [newMessage, setNewMessage] = useState('');
-  const [newGroup, setNewGroup] = useState('');
 
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const [poster, setPoster] = useState();

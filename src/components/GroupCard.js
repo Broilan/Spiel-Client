@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 
 import ViewGroupButton from './ViewGroupButton'; 
@@ -11,14 +11,8 @@ function GroupCard(props) {
     const users = props.users
     
     const id = props.id
-    const { idx } = useParams();
-    const groupDelete=props.groupDelete
-    // const groupPageShow =props.groupPageShow
 
-    const callDelete = (e) => {
-        e.preventDefault();
-        groupDelete(id)
-      }
+
 
   return ( 
     <div>

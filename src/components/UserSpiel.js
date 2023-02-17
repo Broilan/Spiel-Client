@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import HomeBanner from './HomeBanner';
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -34,17 +34,6 @@ const UserSpiel = (props) => {
     function callHistory(idy) {
         history.push(`/spiel/post/${idy}`)
         }
-
-    const [val,setVal]=useState('')
-    const data=[
-        "Java",
-        "JavaScript",
-        "React js",
-        "Python",
-        "C",
-        "C++",
-    ]
-    // const [redirect, setRedirect] = useState(false);
 
 
     const handleMessage = (e) => {

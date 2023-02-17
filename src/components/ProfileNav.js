@@ -6,7 +6,6 @@ import Avatar from '@mui/material/Avatar';
 import Card from 'react-bootstrap/Card';
 
 function ProfileNav(props) {
-    const id = props.id
     const likeFeed = props.likeFeed
     const regularFeed = props.regularFeed
     const commentFeed = props.commentFeed

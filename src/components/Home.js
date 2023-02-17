@@ -5,7 +5,7 @@ import './home.css'
 
 const Home = (props) => {
 
-   const { name, id, email, exp } = props.user;
+   const { name, id, email } = props.user;
         
 
     return (

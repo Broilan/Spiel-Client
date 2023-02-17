@@ -4,11 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
-import Divider from '@mui/material/Divider';
-import { NavLink, Link, useHistory } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -38,13 +34,8 @@ const Navbar = (props) => {
     const [person, setPerson] = useState('/static/images/avatar/5.jpg')
 
     const { user } = props;
-    const { name, id, email, exp } = user;
+    const { name } = user;
 
-    const history=useHistory();
-
-    function allNotifs() {
-    history.push(`/Notifications`)
-    }
   
 
       useEffect(() => {

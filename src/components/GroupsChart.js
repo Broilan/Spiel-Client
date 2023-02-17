@@ -9,7 +9,6 @@ const { REACT_APP_SERVER_URL } = process.env;
 function GroupsChart(props) {
   const [groupFeed, setGroupFeed]= useState([])
   const id = props.id
-  const [hovering, setHovering] = useState('white')
   
   const history=useHistory();
 

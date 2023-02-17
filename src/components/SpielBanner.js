@@ -6,8 +6,7 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 
 
 
-const SpielBanner = (props) => {        
-     const followingFeed= props.followingFeed
+const SpielBanner = () => {        
      const history = useHistory()
 
 

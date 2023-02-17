@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -10,7 +10,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Avatar from '@mui/material/Avatar';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
-import HomeBanner from './HomeBanner';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -30,13 +29,11 @@ const GroupPage = (props) => {
     const [likes, setLikes]= useState()
     const { idx } = useParams();
     const { user } = props;
-   const { name, id, email, } = user;
+   const { name, id,} = user;
     const [message, setMessage] = useState('');
     const [group, setGroup] = useState('');
     const [newMessage, setNewMessage] = useState('');
     const [feed, setFeed] = useState([]);
-    const [commentIdArray, setCommentIdArray] = useState([])
-    const [commentArray, setCommentArray] = useState([])
     const [person, setPerson] = useState('/static/images/avatar/5.jpg')
 
 
